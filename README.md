@@ -8,8 +8,7 @@ It is included excercise, proofs, and my notebooks. You may cites my handwrittin
 my names (https://github.com/m-RezaFahlevi/Mathematica-Works) in it. I think it is fun to share my handwritting to worlds as my
 appreciation and my interest in Mathematica.
 
->Love is wise, Hatred is foolish."
-
+>Love is wise, Hatred is foolish."\n
 -Bertrand Russel
 
 Have a Nice Day for All
