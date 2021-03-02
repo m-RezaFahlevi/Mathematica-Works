@@ -1,0 +1,69 @@
+---
+output:
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+---
+**4.** Asumsikan $X$ adalah jumlah nasabah yang hendak bertransaksi di *teller* sebuah bank dan $X$ adalah peubah acak diskrit (discrete random variable). Telah disebutkan bahwa X dimodelkan sebagai distribusi Poisson dengan tingkat kedatangan rata - rata yang konstan, $\lambda = 8$ orang/jam.
+
+Karena $X$ adalah peubah acak Poisson (Poisson random variable), maka $X$ merupakan proses Poisson (Poisson proccess) dan distribusi peluang $X$ adalah distribusi Poisson. Definisi distribusi Poisson untuk $x = 0, 1, 2, ...$ adalah
+$$
+p(x;\lambda t) = \frac{e^{-\lambda t}(\lambda t)^x}{x!}
+$$
+dengan $\lambda$ adalah angka rata-rata dari nilai kemungkinan per satuan waktu, jarak, area, atau volume. Sedangkan jumlah peluang Poisson atau peluang kumulatifnya adalah
+$$
+P(r;\lambda t) = \sum_{x = 0}^r p(x;\lambda t) = \sum_{x = 0}^{r}
+\frac{e^{-\lambda t}(\lambda t)^x}{x!}
+$$
+dengan $r \geq 0$.
+
+Definisikan domain X dan distribusi Poisson.
+```{r}
+#In this case, we let X = 0, 1, ... , 20
+#We still being able to compute X > 20 by using define_poisson function
+arrival <- seq(0, 20, 1)
+define_poisson <- function(X, lambda) {return(exp(-lambda) * (lambda ** X) / factorial(X))}
+define_cmltv_poisson <- function(r, lambda) {return(sum(define_poisson(seq(0, r, 1), lambda)))}
+cmltv_prob_arrival <- c(sum(define_poisson(0:0, lambda = 8)))
+for (arrivals in 2:length(arrival)) {
+    cmltv_prob_arrival[arrivals] = sum(define_poisson(0:(arrivals-1), lambda = 8))
+}
+df_poisson <- data.frame("arrival" = arrival[0:21], "poisson_probability" = define_poisson(arrival, lambda = 8), "poisson_probability_sums" = cmltv_prob_arrival[0:21])
+#print(df_poisson) Look at appendix
+```
+
+Plot untuk distribusi poisson beserta peluang peluang kumulatifnya.
+```{r}
+library(ggplot2)
+plt_poisson <- ggplot(data = df_poisson, mapping = aes(arrival, poisson_probability)) + geom_bar(stat = "identity", color = "skyblue", aes(fill = poisson_probability)) + ggtitle("poisson distribution for lambda = 8")
+plt_poisson
+plt_poisson_prob_sums <- ggplot(data = df_poisson, mapping = aes(arrival, poisson_probability_sums)) + geom_step(color = "blue") + geom_point(color = "darkblue") + ggtitle("poisson probability sums for lambda = 8")
+plt_poisson_prob_sums
+```
+a. Berdasarkan grafik distribusi poisson di atas, dengan nilai $\lambda = 8/jam$ atau $\lambda jam = 8$ atau $\lambda t = 8$. Maka, untuk $X = 11$, diperoleh $P(X = 11) = 0.0723$, dengan perhitungan sebagai berikut
+$$
+p(x = 11; \lambda t = 8) = \frac{e^{-8} \times 8^{11}}{11!} = 0.0723
+$$
+
+**Maka ** $P(X = 11) = 0.0723$
+
+b. Dengan menggunakan prinsip total peluang untuk semua kemungkinan nilai X adalah sama dengan 1, maka
+$$
+P(X \leq 6) + P(X > 6) = 1
+$$
+Diperoleh
+$$
+\begin{aligned}
+P(X > 6) &= 1 - P(X \leq 6) 
+\\ 
+&= 1 - P(r = 6; \lambda t = 8) 
+\\
+&= 1 - \sum_{x = 0}^{6}\frac{e^{-8}8^x}{x!} 
+\\
+&= 1 - 0.3134 
+\\
+\therefore P(X > 6) &= 0.6866
+\end{aligned}
+$$
+
+**Dengan demikian, peluang nasabah yang mengantri akan berjumlah lebih dari 6 orang adalah** $P(X > 6) = 0.6866$

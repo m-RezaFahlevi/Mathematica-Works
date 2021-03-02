@@ -1,0 +1,261 @@
+---
+title: "UTS ANALISIS NUMERIK"
+author: 'Muhammad Reza Fahlevi (NIM: 181401139)'
+output:
+  html_notebook: default
+  word_document: default
+---
+----
+
+**PROBLEMS**
+
+**4.24.** One common instance where subtractive cancellation
+occurs involves finding the roots of a parabola, $ax^2 + bx + c$,
+with the quadratic formula:
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4 ac}}{2a}
+$$
+For cases where $b^2 >> 4ac$, the difference in the numerator
+can be very small and roundoff errors can occur. In such
+cases, an alternative formulation can be used to minimize
+subtractive cancellation:
+$$
+x = \frac{-2c}{b \pm \sqrt{b^2 - 4 ac}}
+$$
+Use 5-digit arithmetic with chopping to determine the roots
+of the following equation with both versions of the quadratic
+formula. $x^2 − 5000.002x + 10 = 0$
+
+**5.1.** Use bisection to determine the drag coefficient needed
+so that an 80-kg bungee jumper has a velocity of 36 m/s after
+4 s of free fall. Note: The acceleration of gravity is 9.81 $m/s^2$.
+Start with initial guesses of xl = 0.1 and xu = 0.2 and iterate until the approximate relative error falls below 2%.
+
+**5.2.** Develop your own M-file for bisection in a similar fashion
+to Fig. 5.7. However, rather than using the maximum iterations
+and Eq. (5.5), employ Eq. (5.6) as your stopping criterion. Make
+sure to round the result of Eq. (5.6) up to the next highest integer.
+Test your function by solving Prob. 5.1 using Ea,d = 0.0001.
+
+**5.6.** Locate the first nontrivial root of $sin(x) = x^2$ where x is
+in radians. Use a graphical technique and bisection with the
+initial interval from 0.5 to 1. Perform the computation until
+$\varepsilon_{a}$ is less than $\varepsilon_{s} = 2$%. 
+
+**5.14.** You buy a $35,000 vehicle for nothing down at $8,500
+per year for 7 years. Use the bisect function from Fig. 5.7
+to determine the interest rate that you are paying. Employ
+initial guesses for the interest rate of 0.01 and 0.3 and a stopping criterion of 0.00005. The formula relating present
+worth P, annual payments A, number of years n, and interest
+rate i is
+$$
+A = P \times \frac{i(1 + i)^n}{(1 + i)^n - 1}
+$$
+
+**ANSWER**
+
+Prepare the tools for visualization
+```{r}
+library(ggplot2)
+```
+
+**4.24** Compute the value by using the original quadratic formula
+```{r}
+quadratic_roots <- function(a, b, c) {
+    x1 <- (-b + sqrt((b ** 2) - 4 * a * c)) / 2 * a
+    x2 <- (-b - sqrt((b ** 2) - 4 * a * c)) / 2 * a
+    roots <- c(sprintf("%.5f", x1), sprintf("%.5f", x2))
+    return(roots)
+}
+quadratic_alternative_formula <- function(a, b, c) {
+    x1 <- (-2 * c) / (-b + sqrt((b ** 2) - 4 * a * c))
+    x2 <- (-2 * c) / (-b - sqrt((b ** 2) - 4 * a * c))
+    roots_alternate <- c(sprintf("%.5f", x1), sprintf("%.5f", x2))
+    return(roots_alternate)
+}
+print(quadratic_roots(1, 5000.002,10))
+print(quadratic_alternative_formula(1, 5000.002, 10))
+```
+
+
+**5.1.** Rearrange the equation in the term of $c_{d}$. Hence
+$$
+f(c_{d}) = \sqrt{\frac{gm}{c_{d}}}tanh\left(\sqrt{\frac{gc_{d}}{m}}\times t\right) - v(t)
+$$
+declare the domain and the function 
+```{r}
+domain_cd <- seq(0.01, 0.3, 0.01)
+define_cd <- function(x) {
+    cd <- sqrt(9.81 * 80/x) * tanh(sqrt(9.81 * x/80) * 4) - 36
+    return(cd)
+}
+points_cd <- data.frame("cd_val" = domain_cd, "f_cd" = define_cd(domain_cd))
+#print(points_cd) look at appendix
+```
+plot the function $f(c_d)$
+```{r}
+plt_cd <- ggplot(data = points_cd, mapping = aes(cd_val, f_cd)) + geom_line(color = "blue") + ggtitle("f(cd)")
+plt_cd
+```
+define a bisection method for $f(c_d)$
+```{r}
+bisect_cd <- function(a, b, tolerance) {
+    a = c(a); b = c(b); mid_point = c((a[1] + b[1])/2); fmid <- c(define_cd(mid_point[1]))
+    given_error <- c((mid_point - a[1]) * 100/mid_point)
+    n_iteration <- ceiling(log2((b - a)/tolerance)) + 3
+    for (i in 2:ceiling(n_iteration)) {
+        if (fmid[i-1] > 0) {
+            a[i] <- mid_point[i-1]
+            b[i] <- b[i-1]
+            mid_point[i] <- (a[i] + b[i]) / 2
+            fmid[i] <- define_cd(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        } else {
+            a <- append(a, a[i-1])
+            b <- append(b, mid_point[i-1])
+            mid_point <- append(mid_point, (a[i] + b[i]) / 2)
+            fmid[i] <- define_cd(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        }
+    }
+    bisect_df <- data.frame("a_val" = a, "b_val" = b, "mid_point" = mid_point, "fmid" = fmid, "tolerance in percent" = given_error)
+    return(bisect_df)
+}
+```
+for xl = 0.1 and xu = 0.2. Then
+```{r}
+cd_df <- bisect_cd(0.1, 0.2, 0.02)
+print(cd_df)
+View(cd_df)
+```
+Therefore, after 6 iteration, when $\varepsilon_a = 1.12$%, we have that drag coeffiecient $c_d = 0.139$.
+
+**5.2.**
+For $\varepsilon = 0.0001$, then
+```{r}
+cd_df_Ead <- bisect_cd(0.1, 0.2, 0.0001)
+print(cd_df_Ead)
+```
+Look at the 11th row.
+
+**5.6.** 
+declare the domain and the function $sin(x) = x^2$ for numerical analysis.
+```{r}
+domain_x <- seq(-0.5, 1, 0.01)
+define <- function(x) {return(sin(x) - x**2)}
+points <- data.frame("x_val" = domain_x, "def_fun" = define(domain_x))
+#print(points) look at appendix
+```
+Plot the function $f(x) = sin(x) - x^2$
+```{r}
+plt <- ggplot(data = points, mapping = aes(x_val, def_fun)) + geom_line(color = "blue") + ggtitle("sin(x) - x^2")
+plt
+```
+define the function bisection_method take a and b as parameters, where a and b is the interval we choose to find the root. The number of iterations needed, n, to achieve a given error (or tolerance), $\varepsilon$, is given by
+$$
+n = log_{2}\left(\frac{\varepsilon_{0}}{\varepsilon}\right) = \frac{log(\varepsilon_{0}) - log(\varepsilon)}{log(2)}
+$$
+where $\varepsilon_{0} = \text{initial bracket size} = b - a$
+```{r}
+bisect_method <- function(a, b, tolerance) {
+    a = c(a); b = c(b); mid_point = c((a[1] + b[1])/2); fmid <- c(define(mid_point[1]))
+    given_error <- c((mid_point - a[1]) * 100/mid_point)
+    n_iteration <- ceiling(log2((b - a)/tolerance))
+    for (i in 2:ceiling(n_iteration)) {
+        if (fmid[i-1] > 0) {
+            a[i] <- mid_point[i-1]
+            b[i] <- b[i-1]
+            mid_point[i] <- (a[i] + b[i]) / 2
+            fmid[i] <- define(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        } else {
+            a <- append(a, a[i-1])
+            b <- append(b, mid_point[i-1])
+            mid_point <- append(mid_point, (a[i] + b[i]) / 2)
+            fmid[i] <- define(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        }
+    }
+    bisect_df <- data.frame("a_val" = a, "b_val" = b, "mid_point" = mid_point, "fmid" = fmid, "tolerance in percent" = given_error)
+    return(bisect_df)
+}
+```
+For initial interval, let a = 0.5 and b = 1 and tolerance 0.02 (or 2%). Then
+```{r}
+first_df <- bisect_method(a = 0.5, b = 1, 0.02)
+first_df
+```
+Therefore, according this approximation, by using initial interval a = 0.5 and b = 1, when $\varepsilon_{a} = 1.54$%, the root is 0.5078125 and f(root) = 0.890625.
+
+**5.14.**  We can rearrange the equation and express it in the term of i.
+$$
+f(i) = A - P \times \frac{i(1 + i)^n}{(1 + i)^n - 1}
+$$
+for A = 8500, P = 35000, dan n = 7, maka
+$$
+f(i) = 8500 - 35000 \times \frac{i(1 + i)^7}{(1 + i)^7 - 1}
+$$
+declare the domain and the function $f(i) = 8500 - 35000 \times \frac{i(1 + i)^7}{(1 + i)^7 - 1}$ for numerical analysis.
+```{r}
+domain_i <- seq(0.01, 3.3, 0.01)
+define_interest <- function(i) {
+    A = 35000 * (i * ((1 + i) ** 7)) / (((1 + i) ** 7) - 1)
+    interest <- 8500 - A
+    return(interest)
+}
+interest_point <- data.frame("i_val" = domain_i, "interest_i" = define_interest(domain_i))
+#print(interest_point) look at appendix
+```
+plot the function $f(i) = 8500 - 35000 \times \frac{i(1 + i)^7}{(1 + i)^7 - 1}$
+```{r}
+plt_interest <- ggplot(data = interest_point, mapping = aes(i_val, interest_i)) + geom_line(color = "blue") + ggtitle("f(interest)")
+plt_interest
+```
+compute the function interest
+```{r}
+bisection_interest <- function(a, b, tolerances) {
+    a = c(a); b = c(b); mid_point = c((a[1] + b[1])/2); fmid <- c(define_interest(mid_point[1]))
+    given_error <- c((mid_point - a[1]) * 100/mid_point)
+    n_iteration <- ceiling(log2((b - a)/tolerances))
+    for (i in 2:ceiling(n_iteration)) {
+        if (fmid[i-1] > 0) {
+            a[i] <- mid_point[i-1]
+            b[i] <- b[i-1]
+            mid_point[i] <- (a[i] + b[i]) / 2
+            fmid[i] <- define_interest(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        } else {
+            a <- append(a, a[i-1])
+            b <- append(b, mid_point[i-1])
+            mid_point <- append(mid_point, (a[i] + b[i]) / 2)
+            fmid[i] <- define_interest(mid_point[i])
+            given_error[i] <- (mid_point[i] - a[i]) * 100/mid_point[i]
+        }
+    }
+    bisect_df <- data.frame("a_val" = a, "b_val" = b, "mid_point" = mid_point, "fmid" = fmid, "tolerance in percent" = given_error)
+    return(bisect_df)
+}
+```
+For xl = 0.01 and xu = 0.3 and $\varepsilon_{s} = 0.00005$. Then
+```{r}
+interest_df <- bisection_interest(0.01, 0.3, 0.00005)
+print(interest_df)
+```
+Therefore, by using bisection method, we have that the interest rate i is approximately equal to 0.1534778 = 15.35 % (Look at the value last row of the column mid_point)
+
+----
+**APPENDIX**
+
+**5.1.** Points for (cd, f($c_d$))
+```{r}
+print(points_cd)
+```
+**5.6.**  Points for x and $f(x) = sin(x) - x^2$
+```{r}
+print(points)
+```
+**5.14.** Points for f(interest)
+```{r}
+print(interest_point)
+```
+

@@ -1,0 +1,147 @@
+---
+output:
+  word_document: default
+  html_notebook: default
+---
+**5. ** Asumsikan $X_i$ adalah lamanya waktu yang diperlukan antar kedatangan para nasabah dan $X_j$ adalah lamanya waktu nasabah bertransaksi di ATM. Maka, $X_i$ dan $X_j$ memiliki distribusi eksponensial sebagai berikut.
+$$
+\begin{align}
+f(x;\beta_i) = \frac{1}{\beta_i}e^{-\frac{x}{\beta_i}} && dan &&
+f(x;\beta_j) = \frac{1}{\beta_j}e^{-\frac{x}{\beta_j}}
+\end{align}
+$$
+a. Jika dinotasikan $\beta_i$ adalah rata - rata waktu antar kedatangannya para nasabah dan $\beta_j$ adalah rata-rata waktu bertransaksi di ATM, maka $\beta_i = 45$ detik/nasabah dan $\beta_j = 90$ detik/nasabah atau, $\beta_i = 0.75$ menit/nasabah dan $\beta_j = 1.5$ menit/nasabah. Untuk distribusi eksponensial, nilai ekspektasinya adalah $\mu = 1/\beta$. Jadi,
+$$
+\begin{align}
+\mu_i = \frac{1}{0.75} && dan && \mu_j = \frac{1}{1.5}
+\end{align}
+$$
+atau
+$$
+\begin{align}
+\mu_i = 1.3 && dan && \mu_j = 0.6
+\end{align}
+$$
+Jika dinotasikan $\lambda = \mu_i$ dan $\mu = \mu_j$, maka $\lambda = 1.3/menit$ dan $\mu = 0.6/menit$.
+
+**Maka **$\lambda = 1.3/menit$ **dan** $\mu = 0.6/menit$
+
+**b. Diagram transisi keadannya adalah**
+![](D:/Algorithm/transisi_state.png)
+
+c. Diagram rate adalah diagram yang dibuat dari diagram transisi dengan menggantikan simbol aktifitas dengan tingkat (kecepatan, atau yang memiliki besaran $something/time$) aktifitasnya.
+
+**Diagram ratenya adalah**
+![](D:/Algorithm/rate_diagram.png)
+
+**d. Matrix rate adalah matrix $R_{m \times n} = (r_{ij})$. Berdasarkan diagram ratenya pada point (c), matrix rate $R= (r_{ij})$ adalah**
+$$
+\begin{align}
+R_{5 \times 5} &= \begin{bmatrix}
+0 & \lambda &  0 & 0 & 0 \\
+\mu & 0 & \lambda & 0 & 0 \\
+0 & \mu & 0 & \lambda & 0 \\
+0 & 0 & \mu & 0 & \lambda \\
+0 & 0 & 0 & \mu & 0 \\
+\end{bmatrix}
+\end{align}
+$$
+
+e. Jika $\alpha_i$ adalah total rate keluar dari setiap state, maka $\alpha_i$ dapat dihitung dengan persamaan
+$$
+\alpha_i = \sum_{j = 0}^{m - 1}r_{ij}
+$$
+maka,
+$$
+\begin{align}
+\alpha_0 &= r_{0.0} + r_{0.1} + r_{0.2} + r_{0.3} + r_{0.4} \\
+&= 0 + \lambda + 0 + 0 + 0 \\
+\therefore \alpha_0 &= \lambda
+\end{align}
+$$
+Berdasarkan diagram ratenya pada point (c), diperoleh
+$$
+\begin{align}
+\alpha_{i} = \lambda + \mu && \text{for }i = 1, 2, 3
+\end{align}
+$$
+dan $\alpha_4 = \mu$.
+
+**Dengan demikian,** $\alpha_0 = 1.3, \alpha_1 = \alpha_2 = \alpha3 = 1.9, \text{ dan } \alpha_4 = 0.6$
+
+f. Karena jumlah pada baris matrix peluang transisi state sama dengan 1, maka
+$$
+\begin{align}
+\textbf{P} &= \begin{bmatrix}
+1 - \Delta \lambda & \Delta \lambda &  0 & 0 & 0 \\
+\Delta \mu & 1 - \Delta (\mu + \lambda) & \Delta \lambda & 0 & 0 \\
+0 & \Delta \mu & 1 - \Delta (\mu + \lambda) & \Delta \lambda & 0 \\
+0 & 0 & \Delta \mu & 1 - \Delta (\mu + \lambda) & \Delta \lambda \\
+0 & 0 & 0 & \Delta \mu & 1 - \Delta \mu \\
+\end{bmatrix}
+\end{align}
+$$
+Untuk nilai $\lambda = 1.3$ dan $\mu = 0.6$, Maka
+$$
+\begin{align}
+\textbf{P} &= \begin{bmatrix}
+1 - \Delta 1.3 & \Delta 1.3 &  0 & 0 & 0 \\
+\Delta 0.6 & 1 - \Delta 1.9 & \Delta 1.3 & 0 & 0 \\
+0 & \Delta 0.6 & 1 - \Delta 1.9 & \Delta 1.3 & 0 \\
+0 & 0 & \Delta 0.6 & 1 - \Delta 1.9 & \Delta 1.3 \\
+0 & 0 & 0 & \Delta 0.6 & 1 - \Delta 0.6 \\
+\end{bmatrix}
+\end{align}
+$$
+Untuk suatu interval kecil waktu $\Delta = 0.025$, maka
+$$
+\begin{align}
+\textbf{P} &= \begin{bmatrix}
+1 - 0.025\times 1.3 & 0.025 \times 1.3 &  0 & 0 & 0 \\
+0.025 \times 0.6 & 1 - 0.025 \times 1.9 & 0.025 \times 1.3 & 0 & 0 \\
+0 & 0.025 \times 0.6 & 1 - 0.025 \times 1.9 & 0.025 \times 1.3 & 0 \\
+0 & 0 & 0.025 \times 0.6 & 1 - 0.025 \times 1.9 & 0.025 \times 1.3 \\
+0 & 0 & 0 & 0.025 \times 0.6 & 1 - 0.025 \times 0.6 \\
+\end{bmatrix}
+\end{align}
+$$
+
+**Dengan demikian, matrix peluang untuk suatu interval kecil waktu $\Delta = 0.025$ adalah**
+$$
+\begin{align}
+\textbf{P} &= \begin{bmatrix}
+0.9675 & 0.0325 &  0 & 0 & 0 \\
+0.015 & 0.9525 & 0.0325 & 0 & 0 \\
+0 & 0.015 & 0.9525 & 0.0325 & 0 \\
+0 & 0 & 0.015 & 0.9525 & 0.0325 \\
+0 & 0 & 0 & 0.015 & 0.985 \\
+\end{bmatrix}
+\end{align}
+$$
+
+----
+**APPENDIX**
+
+**A.1.**Nilai $f(x;\beta = 0.5)$
+```{r}
+T_randvar <- seq(0, 3, 0.01)
+define_exponential <- function(randvar, bta) {return((1 / bta) * exp(-randvar / bta))}
+df_exponential <- data.frame("Time" = T_randvar, "t_exp" = define_exponential(T_randvar, bta = 0.5))
+print(df_exponential)
+```
+
+**A.2.** Table distribusi poisson untuk $x = 0, 1, 2, ... , 20$
+```{r}
+#In this case, we let X = 0, 1, ... , 20
+#We still being able to compute X > 20 by using define_poisson function
+arrival <- seq(0, 20, 1)
+define_poisson <- function(X, lambda) {return(exp(-lambda) * (lambda ** X) / factorial(X))}
+define_cmltv_poisson <- function(r, lambda) {return(sum(define_poisson(seq(0, r, 1), lambda)))}
+cmltv_prob_arrival <- c(sum(define_poisson(0:0, lambda = 8)))
+for (arrivals in 2:length(arrival)) {
+    cmltv_prob_arrival[arrivals] = sum(define_poisson(0:(arrivals-1), lambda = 8))
+}
+df_poisson <- data.frame("arrival" = arrival[0:21], "poisson_probability" = define_poisson(arrival, lambda = 8), "poisson_probability_sums" = cmltv_prob_arrival[0:21])
+print(df_poisson)
+```
+

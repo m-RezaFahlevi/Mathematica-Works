@@ -1,0 +1,71 @@
+---
+output:
+  word_document: default
+  html_notebook: default
+---
+**3.** Asumsikan $T$ adalah waktu yang dibutuhkan untuk memperbaiki sepeda motor di sebuah bengkel dan $T$ adalah peubah acak kontinu (continuous random variable). Telah disebutkan bahwa $T$ dimodelkan dengan distribusi eksponensial dengan waktu rata - rata $\beta = 0.5$ jam.
+
+Definisi density function untuk distribusi eksponensial
+$$
+f(x;\beta) = \begin{cases}
+\frac{1}{\beta}e^{-\frac{x}{\beta}}, & \text{if } x > 0 \\
+0 & otherwise
+\end{cases}
+$$
+Dengan $e = 2.7182818...$ dan $\beta > 0$. Definisikan $T = x$ jam dan $f(x;\beta = 0.5)$
+```{r}
+T_randvar <- seq(0, 3, 0.01)
+define_exponential <- function(randvar, bta) {return((1 / bta) * exp(-randvar / bta))}
+df_exponential <- data.frame("Time" = T_randvar, "t_exp" = define_exponential(T_randvar, bta = 0.5))
+#print(df_exponential) Look at appendix
+```
+Plot untuk distribusi eksponensial $f(x; \beta = 0.5)$
+```{r}
+library(ggplot2)
+plt_exponential <- ggplot(data = df_exponential, mapping = aes(Time, t_exp)) + geom_line(color = "blue") + ggtitle("Exponential distribution of time T")
+plt_exponential
+```
+
+a. Peluang sebuah sepeda motor akan diperbaiki selama lebih dari 1 jam adalah luas area di bawah kurva $f(x;\beta = 0.5)$ untuk x > 1. Yaitu,
+```{r}
+plt_area_under_the_curve <- plt_exponential + geom_area(fill = "royalblue") + xlim(1, 3)
+plt_area_under_the_curve + ggtitle("Area under the curve")
+```
+
+$$
+\begin{align}
+P(T > 1) &= \int_1^\infty f(x; \beta = 0.5) dx \\
+&= \lim_{t \to \infty}\int_1^t \frac{1}{\beta}e^{-\frac{x}{\beta}} dx \\
+&= \frac{1}{\beta} \lim_{t \to \infty} \int_1^t e^{-\frac{x}{\beta}} dx \\
+\end{align}
+$$
+Asumsikan $u = -x/\beta$, maka $du = -dx/\beta$. Maka, untuk $x = 1$, diperoleh $u = -1/\beta$, dan untuk $x = \infty$, $u = -\infty$. Jadi,
+$$
+\begin{align}
+P(T > 1) &= \frac{1}{\beta}\lim_{t \to \infty} \int_{1}^{t}e^{-\frac{x}{\beta}} dx \\
+&= \frac{-\beta}{\beta} \lim_{t \to -\infty} \int_{-1/\beta}^t e^u du \\
+&= -1 \lim_{t \to -\infty} e^u |_{u = -1/\beta}^{u = t} \\
+&= -1 \lim_{t \to -\infty}(e^t - e^{-\frac{1}{\beta}}) \\
+&= -1(0 - e^{\frac{1}{\beta}}) \\
+&= e^{-\frac{1}{\beta}}
+\end{align}
+$$
+
+**Karena** $\beta = 0.5$, **maka** $P(T > 1) = e^{-\frac{1}{0.5}}$ **atau** $P(T > 1) \approx 0.1353$.
+
+b. Perlu diingat bahwa pada distribusi eksponensial adalah sifatnya yang tanpa memori (memoryless or lack of memory). Misalkan, peluang sepeda motor akan diperbaiki selama lebih dari $t_0$ adalah $P(T \geq t_0)$, maka peluang lamanya sepeda motor akan diperbaiki selama lebih dari atau sama dengan $t_0 + t$ adalah,
+$$
+P(T \geq t_0 + t | T \geq t_0) = P(T \geq t_0)
+$$
+
+**Dengan demikian, peluang sebuah sepeda motor akan diperbaiki selama 2 jam jika telah diperbaiki selama 1 jam, adalah sama dengan peluang sepeda motor akan diperbaiki selama lebih dari atau sama dengan 1 jam.**
+
+Yaitu,
+$$
+\begin{align}
+P(T \geq t_0 + t | T \geq t_0) &= P(T \geq t_0) \\
+P(T \geq 1 + 1 | T \geq 1) &= P(T \geq 1) \\
+P(T \geq 2 | T \geq 1) &= P(T \geq 1) \\
+\therefore P(T \geq 2 | T \geq 1) &= 0.1353
+\end{align}
+$$

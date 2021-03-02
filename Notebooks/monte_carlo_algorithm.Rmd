@@ -1,0 +1,119 @@
+---
+title: "Monte Carlo"
+author: 'Muhammad Reza Fahlevi (NIM: 181401139)'
+output:
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+---
+---
+## 1. Algoritma Simulasi Monte Carlo
+
+Secara umum, simulasi Monte Carlo terdiri atas lima langkah:
+
+1. Tentukan distribusi probabilitas.
+2. Tentukan distribusi probabilitas kumulatif.
+3. Tentukan suatu interval bilangan acak untuk setiap variable.
+4. Bangkitkan bilangan acak.
+5. Simulasikan percobaan.
+
+## 2. Example Monte Carlo Simulation to Mawar Bakery
+
+Mawar Bakery setiap hari membuat cake black forest dalam jumlah yang acak. **Manager Mawar ingin membuat kebijakan untuk mengelola stok cake black forest-nya (yaitu berapa banyak yang harus dibuatnya untuk 10 hari).** Survei permintaan black forest dari 200 pelanggan.
+
+Permintaan | Frekuensi
+---------- | ------------
+0 | 10
+1 | 20
+2 | 40
+3 | 60
+4 | 40
+5 | 30
+
+```{r}
+#Create datum
+cake_demand <- c(
+    rep(0, 10), rep(1, 20), rep(2, 40),
+    rep(3, 60), rep(4, 40), rep(5, 30)
+)
+cake_demand
+```
+Susun datum ini dalam bentuk table dengan kolum permintaan, frekuensi, probabilitas, dan probabilitas kumulatif.
+```{r}
+df_cake_demand <- as.data.frame(table(cake_demand))
+df_cake_demand
+
+#Compute the probability and cumulative probability
+Pr <- df_cake_demand$Freq / sum(df_cake_demand$Freq)
+sums.pr <- c()
+for (i in 1:length(df_cake_demand$Freq)) {
+    sums.pr[i] <- sum(Pr[1:i])
+}
+
+#Add probability and cumulative probability to df
+df_cake_demand["Probability"] <- Pr
+df_cake_demand["Cumulative.Probability"] <- sums.pr
+names(df_cake_demand)[1] <- "cake_demands"
+df_cake_demand
+```
+Visualization of probability distribution and cumulative probability.
+```{r}
+#import library for data visualization
+library(ggplot2)
+
+plt_cake_demand <- ggplot(
+    data = df_cake_demand,
+    mapping = aes(cake_demands, Freq)
+) + geom_bar(
+    stat = "identity",
+    color = "skyblue",
+    aes(fill = Freq)
+) + ggtitle("Cake Demand")
+
+plt_pr <- ggplot(
+    data = df_cake_demand,
+    mapping = aes(cake_demands, Probability)
+) + geom_bar(
+    stat = "identity",
+    color = "skyblue",
+    aes(fill = Probability)
+) + ggtitle("Probability Distribution")
+
+plt_cumulative_pr <- ggplot(
+    data = df_cake_demand,
+    mapping = aes(cake_demands, Cumulative.Probability, group = 1)
+) + geom_step(color = "blue") + geom_point(color = "darkblue") +
+    ggtitle("Cumulative Probability Distribution")
+
+plt_cake_demand
+plt_pr
+plt_cumulative_pr
+```
+Bangkitkan bilangan acak dengan interval 1 sampai 100
+```{r}
+floor(runif(100, 1, 100))
+```
+```{r}
+monte_carlo <- c()
+for (i in 1:10) {
+    get_number <- floor(runif(n = 1, min = 1, max = 100))
+    if (get_number > 0 && get_number <= 5) monte_carlo[i] <- 0
+    else if (get_number > 5 && get_number <= 15) monte_carlo[i] <- 1
+    else if (get_number > 15 && get_number <= 35) monte_carlo[i] <- 2
+    else if (get_number > 35 && get_number <= 65) monte_carlo[i] <- 3
+    else if (get_number > 65 && get_number <= 85) monte_carlo[i] <- 4
+    else if (get_number > 85 && get_number <= 100) monte_carlo[i] <- 5
+}
+
+df_monte_carlo <- data.frame("days" = seq(1, 10, 1), "demands" = monte_carlo)
+df_monte_carlo
+
+#Total demands in the next 10 days
+sum(monte_carlo)
+```
+> Dengan demikian, total permintaan hingga 10 hari kedepannya adalah
+
+```{r}
+sum(monte_carlo)
+```
+

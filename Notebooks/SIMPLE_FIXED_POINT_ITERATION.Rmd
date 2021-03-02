@@ -1,0 +1,141 @@
+---
+title: "Simple Fixed-Point Iteration"
+author: "Muhammad Reza Fahlevi"
+output:
+  html_notebook: default
+  pdf_document: default
+  word_document: default
+---
+----
+## Simple Fixed-Point Iteration
+
+**Problem Statment.** Use simple fixed-point iteration to locate the root of $f(x) = e^{-x} -x$
+
+**Solution.** The function can be seperated directly and expressedas follows.
+$$
+\phi_{i + 1}(x) = e^{-x_i}
+$$
+Starting with an initial guess of $\phi_{i+1}(x) = 0$ for i = 0, then by using equation
+$$
+\phi(x_{i + 1}) = e^{-x_i}
+$$
+we have that
+```{r}
+xdomain <- seq(0.1, 3.0, 0.1)
+fun <- function(x) exp(-x) - x
+phi <- function(xreal) exp(-xreal)
+
+fframe <- data.frame("xval" = xdomain, "f.x" = fun(xdomain))
+pframe <- data.frame("xval" = xdomain, "phi.x" = phi(xdomain))
+head(fframe)
+head(pframe)
+```
+```{r}
+library(ggplot2)
+fplot <- ggplot(data = fframe, mapping = aes(xval, f.x)) + geom_line(color = "blue") + ggtitle("f(x) = exp(-x) - x")
+pplot <- ggplot(data = pframe, mapping = aes(xval, phi.x)) + geom_line(color = "blue")
+fplot
+pplot
+```
+The iteration
+```{r}
+ids <- 0
+idsvect <- 0
+epsilonar <- 0
+epsilontr <- (0.5671433 - idsvect) / 0.5671433
+for (i in 2:17) {
+    idsvect[i] <- phi(ids)
+    epsilonar <- append(epsilonar, abs((idsvect[i] - idsvect[i - 1]) / idsvect[i]))
+    epsilontr[i] <- abs((0.5671433 - idsvect[i]) / 0.5671433)
+    
+    ids <- phi(ids)
+}
+print(idsvect)
+print(epsilonar)
+
+iterframe <- data.frame("ith.iterate" = seq(1, 17) - 1, "phi.x" = idsvect, "abs.epsilon_a" = epsilonar * 100, "abs.epsilon_t" = epsilontr * 100)
+iterframe
+```
+```{r}
+fixed <- data.frame("x.axis" = -log(idsvect), "y.axis" = idsvect)
+fixed
+
+fpplot <- ggplot(data = fixed, mapping = aes(x.axis, y.axis)) + geom_point(color = "blue")
+fpplot
+```
+
+**Background**
+Determining fluid flow through pipes and tubes has great relevance in
+many areas of engineering and science. In engineering, typical applications include the flow
+of liquids and gases through pipelines and cooling systems. Scientists are interested in topics ranging from flow in blood vessels to nutrient transmission through a plant’s vascular
+system.
+The resistance to flow in such conduits is parameterized by a dimensionless number
+called the friction factor. For turbulent flow, the Colebrook equation provides a means to
+calculate the friction factor:
+$$
+0 = \frac{1}{\sqrt{f}} + 2.0 \log \Bigg\{ \frac{\varepsilon}{3.7D} + \frac{2.51}{Re\sqrt{f}} \Bigg\}
+$$
+where ε = the roughness (m), D = diameter (m), and Re = the Reynolds number:
+$$
+Re = \frac{\rho V D}{\mu}
+$$
+where ρ = the fluid’s density (kg/m3), V = its velocity (m/s), and μ =dynamic viscosity (N· s/m2). In addition to appearing in Eq. (6.15), the Reynolds number also serves as the criterion for whether flow is turbulent (Re > 4000).
+
+**Problem Statement**
+In this case study, we will illustrate how the numerical methods covered in this part of the book can be employed to determine f for air flow through a smooth, thin tube. For this case, the parameters are ρ = 1.23 kg/m3, μ = 1.79 × 10–5 N ·s/m2, D = 0.005 m, V = 40 m/s and ε = 0.0015 mm. Note that friction factors range from about 0.008 to 0.08. In addition, an explicit formulation called the Swamee-Jain equation provides an approximate estimate
+$$
+f = \frac{1.325}{ \Bigg[ \ln \Bigg\{\frac{\varepsilon}{3.7D} + \frac{5.74}{Re^{0.9}} \Bigg\} \Bigg]^2}
+$$
+**Solution.**
+First, we compute the value of Reynold number
+$$
+Re = \frac{\rho V D}{\mu}
+$$
+If the value $\rho = 1.23$ $kg/m^3$, $\mu = 1.79 \times 10^{-5}N.s/m^2$, $D = 0.005m$, and $V = 40 m/s$, then the Reynold number $Re$ is
+$$
+Re = \frac{\rho V D}{\mu} = \frac{1.23 \times 40 \times 0.005}{1.79 \times 10^{-5}} = 13743.02 \approx 13743
+$$
+In order to use fixed-point iteration, we write the equation in the term of $f$ as follows
+$$
+\begin{aligned}
+0 &= \frac{1}{\sqrt{f}} + 2.0 \log \Bigg\{ \frac{\varepsilon}{3.7D} + \frac{2.51}{Re\sqrt{f}} \Bigg\} \\
+0 &=  \frac{1}{\sqrt{f}} + 2.0 \log \Bigg\{ \frac{0.0000015}{3.7\times 0.005} + \frac{2.51}{13743 \times\sqrt{f}} \Bigg\} \\
+f &= \frac{0.25}{\Bigg(\log\Bigg(\frac{0.0000015}{3.7\times 0.005} + \frac{2.51}{13743 \times\sqrt{f}}\Bigg)\Bigg)^2}
+\end{aligned}
+$$
+The computation of f is as follows
+```{r}
+fdomain <- seq(0.00, 0.09, 0.001)
+fun <- function(xreal) {
+    stconstant <- 0.0000015 / (3.7 * 0.005)
+    ndconstant <- 2.51 / 13743
+    logterm <- log10(stconstant + (ndconstant * 1 / sqrt(xreal)))
+    return(0.25 * 1 / (logterm ** 2))
+}
+pipeframe <- data.frame("x.axis" = fdomain, "g.f" = fun(fdomain))
+head(pipeframe)
+tail(pipeframe)
+```
+Plot the function of f.
+```{r}
+pipeplot <- ggplot(data = pipeframe, mapping = aes(x.axis, g.f)) + geom_line(color = "blue")
+pipeplot
+```
+
+The iteration
+```{r}
+idspipe <- 0.01
+idspipevect <- 0
+fepsilonar <- 0
+fepsilontr <- c()
+for (i in 1:10) {
+    idspipe <- fun(idspipe)
+    idspipevect[i] <- idspipe
+    if (i > 1) fepsilonar <- append(fepsilonar, abs((idspipevect[i] - idspipevect[i - 1])/idspipevect[i]))
+}
+print(idspipevect)
+print(fepsilonar)
+fflowframe <- data.frame("ith.iterate" = seq(1:10) - 1, "f.flow" = idspipevect, "f.epsilonar" = fepsilonar, "f.epsilontr" = abs((0.02896782 - idspipevect)/0.02896782))
+fflowframe
+```
+

@@ -1,0 +1,73 @@
+---
+output:
+  word_document: default
+  html_notebook: default
+---
+**2.** a. Karena ada dua buah PC (yang bisa rusak sewaktu-waktu), maka asumsikan $R_i$ adalah peubah acak stokastik dan $R_i$ adalah banyaknya komputer yang rusak, dan $i = 0, 1, 2$. Misalkan, $R_i$ menyatakan bahwa terdapat $i$ komputer yang rusak.
+
+**State untuk menggambarkan keadaan di atas adalah** $S = \{R_0, R_1, R_2\}$
+
+**b. Berikut adalah diagram transisi antar state**
+![](D:/Algorithm/tps.png)
+
+c. Perlu diketahui bahwa untuk sifat Markov, maka setiap $R_i$ independen dengan yang lainnya. Maka $P(R_i|R_j) = P(R_i)$, $P(R_i \cup R_j) = P(R_i) + P(R_j)$, dan $P(R_i \cap R_j) = P(R_i)P(R_j)$.
+
+$$
+\begin{align}
+P_{3 \times 3} &= 
+\begin{bmatrix}
+P(R_0|R_0) & P(R_1|R_0) & P(R_2|R_0) \\
+P(R_0|R_1) & P(R_1|R_1) & P(R_2|R_1) \\
+P(R_0|R_2) & P(R_1|R_2) & P(R_2|R_2) \\
+\end{bmatrix}
+\end{align}
+$$
+Perlu diingat bahwa, *sistem diamati setelah komputer yang diperbaiki dipulangkan dan sebelum ada kerusakan baru lagi.* Jadi, $P(R_i|R_j)$ berarti $R_j$ telah diperbaiki dan dipulangkan, sehingga $R_j$ tidak mungkin rusak pada hari itu juga $R_j$ dipulangkan. Dan pada hari $R_j$ dipulangkan, berapakah peluang $R_i$.
+
+* Kalau kedua PC dapat berjalan pada pagi hari, maka sorenya ada 30% kemungkinan satu akan rusak dan 15% kemungkinan keduanya rusak. Berarti $P(R_1|R_0) = 0.3$ dan $P(R_2|R_0) = 0.15$. Karena pada rantai markov jumlah baris pada matrix peluang transisinya sama dengan 1. Jadi,
+$$
+\begin{align}
+P(R_0|R_0) &= 1 - [P(R_1|R_0) + P(R_2|R_0)] \\
+&= 1 - [0.30 + 0.15] = 1 - 0.45 \\
+&= 0.55
+\end{align}
+$$
+
+* Jika hanya satu PC yang bisa berjalan di awal hari, maka ada 35% kemungkinan PC itu akan rusak di sore hari. Maka, $P(R_1|R_1) = 0.35$ dan $P(R_2|R_1) = 0$, $P(R_2|R_1) = 0$ dikarenakan pada saat salah satu PC yang diperbaiki dan dipulangkan pada hari itu juga tidak boleh rusak, sehingga tidak mungkin pada hari tersebut kedua PC rusak. Karena pada rantai markov jumlah baris pada matrix peluang transisinya sama dengan 1. Jadi,
+$$
+\begin{align}
+P(R_0|R_1) &= 1 - [P(R_1|R_1) + P(R_2|R_1)] \\
+&= 1 - [0.35 + 0] = 1 - 0.35 \\
+&= 0.65
+\end{align}
+$$
+
+* PC yang rusak dalam satu hari akan diambil esok paginya, diperbaiki, dan dipulangkan pagi berikutnya. Maka, $P(R_0|R_2) = 1$. Dan lagi, Karena pada rantai markov jumlah baris pada matrix peluang transisinya sama dengan 1. Jadi, $P(R_1|R_2) = 0$ dan $P(R_2|R_2) = 0$. 
+
+**Dengan demikian, matrix peluang transisinya adalah**
+$$
+\begin{align}
+P_{3 \times 3} &= 
+\begin{bmatrix}
+0.55 & 0.30 & 0.15 \\
+0.65 & 0.35 & 0 \\
+1 & 0 & 0 \\
+\end{bmatrix}
+\end{align}
+$$
+
+**d. Statenya adalah S = {$s_1, s_2$}, dengan $s_1$ adalah hari perbaikan komputer pertama dan $s_2$ adalah status komputer kedua (rusak atau tidak).
+Diagram transisi statenya adalah** 
+![](D:/Algorithm/tps_2.png)
+Matrix peluang untuk situasi ini adalah
+$$
+\begin{align}
+P_{5 \times 5} &= \begin{bmatrix}
+0.55 & 0.30 & 0 & 0.1 & 0 \\
+0 & 0 & 0.65 & 0 & 0.35 \\
+0.65 & 0.35 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & 0 \\
+\end{bmatrix}
+\end{align}
+$$

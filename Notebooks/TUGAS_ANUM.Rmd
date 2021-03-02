@@ -1,0 +1,160 @@
+---
+title: "Tugas 1 Analisis Numerik"
+author: 'Muhammad Reza Fahlevi (NIM: 181401139)'
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+always_allow_html: yes
+---
+---
+
+**PROBLEMS.**
+Given: Eq (1.8) and Eq(1.9) as solution
+
+$$
+\frac{dv(t)}{dt} = g - \frac{c_dv^2}{m}
+$$
+$$
+\text{where the general solution is } \\
+v(t) = \sqrt{\frac{gm}{c_d}}tanh\left(\sqrt{\frac{gc_d}{m}}t\right)
+$$
+
+1. Use calculus to verify that $Eq. (1.9)$ is a solution of
+$Eq. (1.8)$ for the initial condition $v(0) = 0$
+
+2. Use calculus to solve Eq. (1.21) for the case where the initial velocity is (a) positive and (b) negative. (c) Based on your
+results for (a) and (b), perform the same computation as in Example 1.1 but with an initial velocity of -40 m/s. Compute
+values of the velocity from t = 0 to 12s at intervals of 2 s. Note
+that for this case, the zero velocity occurs at t = 3.470239 s.
+
+3. Repeat Example 1.2. Compute the velocity to t = 12 s,
+with a step size of (a) 1 and (b) 0.5 s. Can you make any
+statement regarding the errors of the calculation based on the
+results?
+
+**ANSWER**
+
+1. For $Eq. (1.8)$. When $v(t = 0) = 0$ we have that
+$$
+\frac{dv(t = 0)}{dt} = g - \frac{c_d(0)^2}{m} \\
+= g
+$$
+
+In order to prove that $Eq.(1.9)$ is a solution for $Eq. (1.8)$ for the initial condition $v(0) = 0$. Then we must show that the derivative of $Eq. (1.9)$ for $v(0) = 0$ is equals to $g$.
+$$
+v(t) = \sqrt{\frac{gm}{c_d}}tanh\left(\sqrt{\frac{gc_d}{m}}t\right) \\
+$$
+$\text{let } u = \sqrt{\frac{gc_d}{m}}t \text{ , then} \\$
+$$
+\frac{du}{dt} = \sqrt{\frac{gc_d}{m}} \\
+$$
+$\text{Hence, } \\$
+$$
+\begin{align}
+v(t) &= \sqrt{\frac{gm}{c_d}}tanh(u) \\
+\frac{dv(t)}{du} &= \sqrt{\frac{gm}{c_d}} sech^2(u) \\
+\frac{dv(t)}{dt} \frac{dt}{du} &= \sqrt{\frac{gm}{c_d}} sech^2(u) \\
+\frac{dv(t)}{dt} &= \frac{du}{dt} \sqrt{\frac{gm}{c_d}} sech^2(u) \\
+\frac{dv(t)}{dt} &= \sqrt{\frac{gc_d}{m}} \sqrt{\frac{gm}{c_d}} sech^2\left(\sqrt{\frac{gc_d}{m}}t\right) \\
+\frac{dv(t)}{dt} &= g\times sech^2\left(\sqrt{\frac{gc_d}{m}}t\right) \\
+\text{For v(t = 0), then} \\
+\frac{dv(t = 0)}{dt} &= g\times sech^2\left(\sqrt{\frac{gc_d}{m}}0\right) \\
+\frac{dv(t = 0)}{dt} &= g\times sech^2(0) \\
+\because sech(0) &= 1 \text{ & } sech(\theta) = \frac{1}{cosh(\theta)} \\
+\therefore \frac{dv(t = 0)}{dt} &= g
+\end{align}
+$$
+
+Prepare the function
+```{r}
+library(plotly)
+
+#Declare a constant
+gravity = 9.81 # in meter / second square. Of course this value is an approximation
+drag_coefficient = 0.25 # in kg / m
+mass = 68.1 # in kg
+
+#An autonomous differential equations
+diffeq_velocity <- function(what_time, what_velocity) {
+        calc_slope <- gravity - (drag_coefficient * (what_velocity ** 2)) / mass
+        return(calc_slope)
+}
+
+#This solution is founded by using calculus / analytical
+calc_velocity <- function(time_t) {
+    velocity <- sqrt(gravity * mass / drag_coefficient) * tanh(sqrt(gravity * drag_coefficient / mass) * time_t)
+    return(velocity)
+}
+
+#Euler's method
+calc_model<- function(what_step_size, what_calc_time, initial_calc_velocity = 0) {
+    step_size = what_step_size
+    calc_time = what_calc_time
+    
+    model_calc_velocity <- c(initial_calc_velocity)
+    
+    for (iter in 1:length(calc_time)) {
+        ifelse(
+            iter == 1,
+            model_calc_velocity[iter] <- model_calc_velocity + step_size*diffeq_velocity(what_time = calc_time[iter], what_velocity = model_calc_velocity),
+            model_calc_velocity[iter] <- model_calc_velocity[iter-1] + step_size*diffeq_velocity(what_time = calc_time[iter], what_velocity = model_calc_velocity[iter-1])
+        )
+    }
+    
+    df <- data.frame(calc_time, model_calc_velocity)
+    
+    return(df)
+}
+```
+
+2. The way to solve ode in $E.q. (1.8)$ is identical to number one. For initial velocity is -40 m/s, we have that.
+```{r}
+calculated_model <- calc_model(what_step_size = 2, what_calc_time = seq(0, 12, 2), initial_calc_velocity = -40)
+calculated_model
+
+plot_model_df <- ggplot(data = calculated_model, mapping = aes(calc_time, model_calc_velocity)) + geom_line(color = "blue")
+plot_model_df
+#plot_model_df <- ggplotly(plot_model_df) %>% add_lines(name = ~"model_calc_velocity")
+
+calc_time = seq(0, 12, 2)
+predicted_velocity <- calc_velocity(time_t = calc_time)
+predicted_velocity
+df_predicted_velocity <- data.frame(calc_time, predicted_velocity)
+df_predicted_velocity
+
+plot_predicted_velocity <- ggplot(data = df_predicted_velocity, mapping = aes(calc_time, predicted_velocity)) + geom_line(color = "darkblue")
+plot_predicted_velocity
+#plot_predicted_velocity <- ggplotly(plot_predicted_velocity) %>% add_lines(name = ~"predicted_velocity")
+
+plt <- subplot(plot_model_df, plot_predicted_velocity)
+plt
+
+```
+
+
+3. Computation the velocity to t = 12 s, with a given step size.
+```{r}
+first_model <- calc_model(what_step_size = 1, what_calc_time = seq(0, 12, 1))
+first_model
+
+second_model <- calc_model(what_step_size = 0.5, what_calc_time = seq(0, 12, 0.5))
+second_model
+
+third_model <- calc_model(what_step_size = 0.1, what_calc_time = seq(0, 12, 0.1))
+third_model
+
+plot_first_model_df <- ggplot(data = first_model, mapping = aes(calc_time, model_calc_velocity)) + geom_line(color = "blue")
+#plot_first_model_df <- ggplotly(plot_first_model_df)
+plot_first_model_df
+
+plot_second_model_df <- ggplot(data = second_model, mapping = aes(calc_time, model_calc_velocity)) + geom_line(color = "blue")
+#plot_second_model_df <- ggplotly(plot_second_model_df)
+plot_second_model_df
+
+plot_third_model_df <- ggplot(data = third_model, mapping = aes(calc_time, model_calc_velocity)) + geom_line(color = "blue")
+#plot_third_model_df <- ggplotly(plot_third_model_df)
+plot_third_model_df
+```
+As we can see the graphics, the more step_size approach to 0 (but not exactly equals to 0), then the more precision or accurate the solution we have.

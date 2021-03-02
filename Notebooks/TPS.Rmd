@@ -1,0 +1,181 @@
+---
+title: "PEMBAHASAN QUIZ SIMULASI PEMODELAN OKT 2020"
+author: 'Muhammad Reza Fahlevi (NIM : 181401139)'
+output:
+  word_document: default
+  html_notebook: default
+---
+----
+**QUIZ SIMULASI PEMODELAN OKT 2020 **
+
+**(KUMPULKAN DALAM FORMAT PDF, MAX SENIN 9 NOV 2020 PKL 20.00)**
+
+**1.** Berat tubuh dalam cm sejumlah mahasiswa dimodelkan sebagai besaran diskrit seperti pada tabel
+berikut:
+
+Berat (kg)  | Frekuensi
+----------- | -----------
+60 | 1
+62 | 4
+64 | 3
+66 | 5
+68 | 4
+70 | 5
+72 | 3
+74 | 2
+76 | 3
+
+a. Berapakah **berat rata-rata** para siswa pria tersebut?
+b. Berapakah **kumulatif peluang** untuk berat hingga
+    i. 66 kg?
+    ii. 70 kg?
+c. Tunjukkanlah bahwa **sifat Probability Mass Function** terpenuhi dalam kasus ini!
+
+**2.** Suatu kantor menggunakan **dua buah PC lama (yang bisa rusak sewaktu-waktu)** untuk mengetik surat dan berkas di kantor tersebut.
+
+* Kalau **kedua PC dapat berjalan** pada pagi hari, maka sorenya ada **30% kemungkinan satu akan rusak dan 15% kemungkinan keduanya rusak.**
+* Jika **hanya satu PC yang bisa berjalan** di awal hari, maka ada **35% kemungkinan PC itu akan rusak** di sore hari.
+* Jika **semua PC sudah rusak** di pagi hari, kantor terpaksa mengirim semua pekerjaan ke jasa pengetikan di luar kantor.
+* PC yang rusak dalam satu hari akan **diambil esok paginya, diperbaiki, dan dipulangkan pagi berikutnya.**
+* Sistem diamati **setelah komputer yang diperbaiki dipulangkan** dan **sebelum ada kerusakan baru** lagi.
+
+Berdasarkan suatu **Rantai Markov Waktu Diskrit**, tentukanlah:
+
+a. **State** untuk menggambarkan keadaan di atas (**jelaskan arti masing-masing state** tersebut!)
+b. **Diagram transisi** antar **state**
+c. **Matriks peluang transisi**
+d. Jika hanya ada **seorang teknisi yang butuh 2 hari** untuk memperbaiki sebuah PC, maka
+tentukanlah **state, diagram transisi, dan matriks peluang** untuk situasi ini!
+
+**3.** Waktu yang dibutuhkan untuk memperbaiki sepeda motor di sebuah bengkel **terdistribusi secara eksponensial** dengan waktu rata-rata 0.5 jam.
+
+a. Berapakah **peluang** sebuah sepeda motor akan diperbaiki selama **lebih dari 1 jam**?
+b. Berapakah **peluang** sebuah sepeda motor **akan diperbaiki selama 2 jam** jika **telah diperbaiki selama 1 jam**?
+
+**4.** Jumlah nasabah yang hendak bertransaksi di *teller* sebuah bank memiliki **distribusi Poisson** dengan **tingkat kedatangan rata-rata yang konstan ** $λ = 8$ **orang/jam.**
+
+a. Berapakah peluang akan **tepat ada 11 orang** yang mengantri di *teller* tersebut?
+b. Berapa pula peluang nasabah yang mengantri akan berjumlah **lebih dari 6 orang?**
+
+**5.** Misalkan suatu **ruang ATM** dapat menampung hingga **maksimal 4 orang** nasabah yang **rata-rata waktu antar kedatangannya** adalah **45 detik/nasabah**, dan rata-rata waktu bertransaksi di ATM adalah **90 detik/nasabah.** Tentukanlah:
+
+a. $\lambda$ dan $\mu$ dalam **jlh nasabah/menit**
+b. Diagram transisi keadaan
+c. Diagram rate
+d. Matriks rate
+e. $\alpha1, \alpha2, \alpha3, \alpha4$ (Total **rate keluar** dari setiap state)
+f. Matriks peluang untuk suatu nilai kecil $\Delta$ (ambil suatu nilai $\Delta$ tertentu)
+
+**ANSWER**
+
+Import library untuk visualisasi data
+
+```{r}
+library(ggplot2)
+```
+
+
+**1.** a. Asumsikan kita memiliki data berat tubuh mahasiswa sebagai berikut
+```{r}
+berat = c(60, 62, 62, 62, 62, 64, 64, 64, 66, 66, 66, 66, 66, 68, 
+          68, 68, 68, 70, 70, 70, 70, 70, 72, 72, 72, 74, 74, 76, 
+          76, 76)
+print(berat)
+paste("Total datum: ", length(berat))
+```
+Susun data berat tubuh mahasiswa dalam bentuk table dengan kolum berat dan frekuensinya
+```{r}
+berat_badan <- factor(berat)
+table_berat <- table(berat_badan)
+df_berat <- as.data.frame(table_berat)
+df_berat
+```
+Data ini dapat divisualisasikan sebagai berikut
+```{r}
+plt_berat_badan <- ggplot(data = df_berat, mapping = aes(berat_badan, Freq)) + geom_bar(stat = "identity", color = "skyblue", aes(fill = Freq)) + ggtitle("berat_badan_mahasiswa")
+plt_berat_badan
+```
+
+
+Berikut adalah deskripsi singkat dari data berat badan mahasiswa
+```{r}
+summary(berat)
+```
+Karena data berat badan mahasiswa disusun dalam bentuk table dengan kolum berat dan frekuensinya, maka berat badan rata - rata mahasiswa dapat dicari dengan persamaan,
+$$
+\bar{x} = \frac{\sum_{i = 1}^{N}f_ix_i}{\sum_{i = 1}^{N}fi}
+$$
+
+** Terlihat bahwa berat badan rata - rata mahasiswa adalah ** $\bar{x} = 68.13$
+
+b. Asumsikan kita memiliki peubah acak $X$ ($X$ be a random variable) yang mana $X$ adalah banyaknya mahasiswa dengan berat badan $X = x$.
+
+Persamaan (formula) distribusi massa peluang untuk data berat_badan mahasiswa adalah
+$$
+f(X = x) = \frac{f_x}{N}
+$$
+Yang mana $f_x$ adalah frekuensi dari $X = x$ dan N adalah banyaknya datum, yaitu $N = 30$. Karena X adalah peubah acak diskrit, maka persamaan untuk kumulatif peluangnya adalah
+$$
+F(X = x) = \sum_{t \leq x} f(t)
+$$
+Komputasi dari persamaan distribusi massa peluang dan kumulatif peluangnya sebagai berikut
+```{r}
+#Compute the probability mass function
+define_probability <- function(x) {return(df_berat$Freq / sum(df_berat$Freq))}
+df_prob_berat <- data.frame("X_berat" = as.numeric(levels(berat_badan)), "Probability" = define_probability(as.numeric(levels(berat_badan))))
+
+#Compute the cumulative probability mass function
+cumulative_probability <- c()
+for (iteration in 1:length(levels(berat_badan))) {
+    cumulative_probability[iteration] <- sum(df_prob_berat$Probability[1:iteration])
+}
+```
+Maka, distribusi massa peluang beserta kumulatif peluang untuk peubah acak X adalah
+```{r}
+#Create data frame that contain X, P(X), and F(X)
+df_prob_berat["cumulative.probability"] <- cumulative_probability
+df_prob_berat
+```
+Agar makna / informasi dari distribusi peluang ini mudah untuk dipahami, data frame ini dapat divisualisasikan sebagai berikut.
+```{r}
+plt_prob_berat <- ggplot(data = df_prob_berat, mapping = aes(X_berat, Probability)) + geom_bar(stat = "identity", color = "skyblue", aes(fill = Probability)) + ggtitle("Probability distribution of X")
+plt_prob_berat
+
+plt_cmltv_prob_berat <- ggplot(data = df_prob_berat, mapping = aes(X_berat, cumulative_probability)) + geom_step(color = "blue") + geom_point(color = "darkblue") + ggtitle("Cumulative probability of X")
+plt_cmltv_prob_berat
+```
+
+**Terlihat bahwa kumulatif peluang untuk berat hingga 66 kg dan 70 kg adalah** $F(X = 66) = 0.43 \text{ dan } F(X = 70) = 0.73$
+
+c. Untuk membuktikan bahwa sifat **probability mass function** terpenuhi dalam kasus ini, maka untuk kasus ini, kita harus membuktikan bahwa kasus ini memenuhi syarat - syarat distribusi peluang.
+
+**Himpunan dari pasangan berurut $(x, f(x))$ adalah suatu fungsi peluang, fungsi massa peluang, atau distribusi peluang (probability function, probability mass function, or probability distribution) dari peubah acak $X$ jika, untuk kemungkinan nilai x,**
+
+1. $f(x) \geq 0,$
+2. $\sum_x f(x) = 1,$
+3. $P(X = x) = f(x).$
+
+Untuk kasus ini, kita memiliki bahwa untuk $f(X = x) = f_x/N,$ nilai $f(x) \geq 0$. Artinya, untuk semua kemungkinan nilai $x$, maka nilai $f(x)$ tidak bernilai negatif. Dengan demikian, sifat pertama probability mass function terpenuhi untuk kasus ini.
+
+Jumlah dari peluang untuk nilai x yang mungkin untuk kasus ini adalah,
+$$
+\begin{align}
+\sum_{\forall x}f(x) &= f(60) + f(62) + f(64) + f(66) + f(68) + f(70) + f(72) + f(74) + f(76) \\
+&= \frac{1}{30} + \frac{4}{30} + \frac{3}{30} + \frac{5}{30} + \frac{4}{30} + \frac{5}{30} + \frac{3}{30} + \frac{2}{30} + \frac{3}{30} \\
+&= \frac{30}{30} \\
+\therefore \sum_{\forall x} f(x) &= 1
+\end{align}
+$$
+Atau
+```{r}
+sum(df_prob_berat$Probability)
+```
+Karena jumlah $f(x)$ untuk semua kemungkinan nilai $x$ adalah 1. Dengan demikan, kasus ini memenuhi sifat kedua probability mass function.
+
+Persamaan atau formula untuk $P(X = x)$ untuk kasus ini didefinisikan sebagai,
+$$
+f(x) = \frac{f_x}{N}
+$$
+dengan $f_x$ adalah frekuensi dari nilai $x$. Maka, $P(X = x)$ terdefinisi. Dengan demikian, kasus ini memenuhi sifat ketiga dari probability mass function.
+
+**Ketika telah ditunjukkan bahwa kasus ini memenuhi ketiga sifat dari probability mass function. Dengan demikian, telah terbukti bahwa probability mass function untuk kasus ini adalah sah (valid).**
