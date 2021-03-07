@@ -39,11 +39,21 @@ Adj[F] = [C, E, G, H]
 Adj[G] = [E, F]
 Adj[H] = [F]
 
+vertexs = [A, B, C, D, E, F, G, H]
+
 # Q = Queue()
 # Q.enqueue(A)
 # Q.enqueue(B)
 # temp = Q.dequeue()
 # print(temp.color)
+
+def resetattr(objects):
+    objects.color = "white"
+    objects.distance =  float("inf")
+    objects.predecessor = None
+
+def restart(graph):
+    [resetattr(v) for v in graph]
 
 def bfsearch(vertex, goal):
     vertex.color = "gray"
@@ -62,4 +72,19 @@ def bfsearch(vertex, goal):
         udeq.color = "black"
     return goal.distance
 
-print(bfsearch(A, H))
+#restart(vertexs)
+bfsearch(A, C) # compute breadth-first-search
+
+def disppath(start, goal, path = []):
+    if start == goal:
+        # print(goal.name)
+        path.append(goal.name)
+    elif goal.predecessor == None:
+        print(f"No path from {start.name} to {goal.name} exists")
+    else:
+        disppath(start, goal.predecessor)
+        # print(goal.name)
+        path.append(goal.name)
+    return path
+
+print(disppath(A, H))
