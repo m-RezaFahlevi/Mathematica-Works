@@ -1,4 +1,13 @@
-# from no fuken modules import no fuken class
+"""
+Author      :   Muhammad Reza Fahlevi
+Dated       :   March 11th, 2021
+Affiliation :   Departemen Ilmu Komputer,
+                Fakultas Ilmu Komputer - Teknologi Informasi,
+                Universitas Sumatera Utara, Indonesia
+References  :   Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein - Introduction to Algorithms-MIT Press (2009).
+                Benjamin Baka. Python Data Structures and Algorithms. 2017. Packt Publishing.
+                https://docs.python.org/3.8/tutorial/index.html
+"""
 
 Adj = dict()
 
@@ -72,10 +81,10 @@ def bfsearch(vertex, goal):
         udeq.color = "black"
     return goal.distance
 
-#restart(vertexs)
-bfsearch(A, C) # compute breadth-first-search
+restart(vertexs)
+bfsearch(A, H) # compute breadth-first-search
 
-def disppath(start, goal, path = []):
+def disppath(start, goal, path = list()):
     if start == goal:
         # print(goal.name)
         path.append(goal.name)
@@ -87,4 +96,4 @@ def disppath(start, goal, path = []):
         path.append(goal.name)
     return path
 
-print(disppath(A, H))
+print(disppath(A, E))

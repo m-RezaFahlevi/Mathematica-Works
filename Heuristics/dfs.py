@@ -1,4 +1,14 @@
-# from no fuken modules import no fuken class
+"""
+Author      :   Muhammad Reza Fahlevi
+Dated       :   March 11th, 2021
+Affiliation :   Departemen Ilmu Komputer,
+                Fakultas Ilmu Komputer - Teknologi Informasi,
+                Universitas Sumatera Utara, Indonesia
+References  :   Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein - Introduction to Algorithms-MIT Press (2009).
+                Benjamin Baka. Python Data Structures and Algorithms. 2017. Packt Publishing.
+                https://docs.python.org/3.8/tutorial/index.html
+                https://www.geeksforgeeks.org/global-local-variables-python/
+"""
 
 Adj = dict()
 
@@ -25,14 +35,14 @@ class Vertex(object):
         node.finish = finish
         node.predecessor = predecessor
 
-A  = Vertex("A", "white", float("inf"), float("inf"), None)
-B  = Vertex("B", "white", float("inf"), float("inf"), None)
-C  = Vertex("C", "white", float("inf"), float("inf"), None)
-D  = Vertex("D", "white", float("inf"), float("inf"), None)
-E  = Vertex("E", "white", float("inf"), float("inf"), None)
-F  = Vertex("F", "white", float("inf"), float("inf"), None)
-G  = Vertex("G", "white", float("inf"), float("inf"), None)
-H  = Vertex("H", "white", float("inf"), float("inf"), None)
+A = Vertex("A", "white", float("inf"), float("inf"), None)
+B = Vertex("B", "white", float("inf"), float("inf"), None)
+C = Vertex("C", "white", float("inf"), float("inf"), None)
+D = Vertex("D", "white", float("inf"), float("inf"), None)
+E = Vertex("E", "white", float("inf"), float("inf"), None)
+F = Vertex("F", "white", float("inf"), float("inf"), None)
+G = Vertex("G", "white", float("inf"), float("inf"), None)
+H = Vertex("H", "white", float("inf"), float("inf"), None)
 
 Adj[A] = [B, C]
 Adj[B] = [A, D]
@@ -92,4 +102,4 @@ def disppath(start, goal, path = list()):
     return path
 
 dfsearch(vertexs)
-print(disppath(A, C))
+print(disppath(A, E))
