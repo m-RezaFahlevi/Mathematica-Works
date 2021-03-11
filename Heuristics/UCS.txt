@@ -11,8 +11,8 @@ initial state is vertex S
 goal state is vertex K
 uniform cost search algorithm is being used to find path from S to K
 
-list of vertex and its corresponding adjency, and the cost needed from one vertices to its
-corresponding adjency
+list of vertex and its corresponding adjacency, and the cost needed from one vertices to its
+corresponding adjacency
 Adj[A] = [B, E, F, S]		; $(A) = [3B, 8E, 3F, 4S]
 Adj[B] = [A, D, S]			; $(B) = [3A, 6D, 4S]
 Adj[C] = [D, S]				; $(C) = [3D, 5S]
@@ -33,75 +33,163 @@ Goal = list() 	; it is used for accommodate the goal state and its cost
 Q.enqueue(Adj[S]) return [5C, 4B, 4A]
 sort(Q) return [4B, 4A, 5C]
 temp = Dequeue(Q) return 4B
-Exp.Queue(temp) return [4B]
+Exp.enqueue(temp) return [4B]
 
-phase 1:
-	minval = min($(B)) return 3A
-	Exp.Queue(minval) return [4B, 3A]
-	temp = 4B + 3A = 7 B-A
-	Q.enqueue(temp) return [4A, 5C, 7 B-A]
-	sort(Q) return [4A, 5C, 7 B-A]
-	temp = Dequeue(Q) return 4A
-phase 2:
-	minval = min($(A)) return 3F
-	Exp.Queue(minval) return [4B, 3A, 3F]
-	temp = 4A + 3F = 7 A-F
-	Q.enqueue(temp) return [5C, 7 B-A, 7 A-F]
-	sort(Q) return [5C, 7 B-A, 7 A-F]
-	temp = Dequeue(Q) return 5C
-phase 3:
-	minval = min($(C)) return 3D
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D]
-	temp = 5C + 3D = 8 C-D
-	Q.enqueue(temp) return [7 B-A, 7 A-F, 8 C-D]
-	sort(Q) return [7 B-A, 7 A-F, 8 C-D]
-	temp = Dequeue(Q) return 7 B-A
-phase 4:
-	minval = min($(A)) return 8E
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E]
-	temp = 7 B-A + 8E = 15 B-A-E
-	Q.enqueue(temp) return [7 A-F, 8 C-D, 15 B-A-E]
-	sort(Q) return [7 A-F, 8 C-D, 15 B-A-E]
-	temp = Dequeue(Q) return 7 A-F
-phase 5:
-	minval = min($(F)) return 3G
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E, 3G]
-	temp = 7 A-F + 3G = 10 A-F-G
-	Q.enqueue(temp) return [8 C-D, 15 B-A-E, 10 A-F-G]
-	sort(Q) return [8 C-D, 15 B-A-E, 10 A-F-G]
-	temp = Dequeue(Q) return 8 C-D
-phase 6:
-	minval = min($(D)) return 9K
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 9K]
-	temp = 8 C-D + 9K = 17 C-D-K
-	Q.enqueue(temp) return [15 B-A-E, 10 A-F-G, 17 C-D-K]
-	sort(Q) return [10 A-F-G, 15 B-A-E, 17 C-D-K]
-	temp = Dequeue(Q) return 10 A-F-G
-phase 7:
-	minval = min($(G)) return 7Z
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 9K, 7Z]
-	temp = 10 A-F-G + 7Z = 17 A-F-G-Z
-	Q.enqueue(temp) return [15 B-A-E, 17 C-D-K, 17 A-F-G-Z]
-	sort(Q) return [15 B-A-E, 17 A-F-G-Z, 17 C-D-K]
-	temp = Dequeue(Q) return 15 B-A-E
-phase 8:
-	minval = min($(E)) return {} hence minval = 0
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 9K, 7Z]
-	temp = 15 B-A-E + {} = {}
-	Q.enqueue(temp) return [17 A-F-G-Z, 17 C-D-K]
-	sort(Q) return[17 A-F-G-Z, 17 C-D-K]
-	temp = Dequeue(Q) return 17 A-F-G-Z
-phase 10:
-	minval = min($(Z)) return 9K
-	Exp.Queue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 9K, 7Z, 9K]
-	temp = 17 A-F-G-Z + 9K = 26 A-F-G-Z-K
-	Q.enqueue(temp) return [17 C-D-K, 26 A-F-G-Z-K]
-	sort(Q) return [17 C-D-K, 26 A-F-G-Z-K]
-	temp = Dequeue(Q) return {}
+while Q still have a member (a.k.a. not an empty list or empty set {})
+	phase 1:
+		minval = min($(B)) return 3A
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A]
+			temp = 4B + minval = 4B + 3A = 7 B-A
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [4A, 5C, 7 B-A]
+				sort(Q) return [4A, 5C, 7 B-A]
+				temp = Dequeue(Q) return 4A
+		else
+			temp = Dequeue(Q)
+	phase 2:
+		minval = min($(A)) return 3F
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F]
+			temp = 4A + minval = 4A + 3F = 7 A-F
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [5C, 7 B-A, 7 A-F]
+				sort(Q) return [5C, 7 B-A, 7 A-F]
+				temp = Dequeue(Q) return 5C
+		else
+			temp = Dequeue(Q)
+	phase 3:
+		minval = min($(C)) return 3D
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D]
+			temp = 5C + minval = 5C + 3D = 8 C-D
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [7 B-A, 7 A-F, 8 C-D]
+				sort(Q) return [7 B-A, 7 A-F, 8 C-D]
+				temp = Dequeue(Q) return 7 B-A
+		else
+			temp = Dequeue(Q)
+	phase 4:
+		minval = min($(A)) return 8E
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E]
+			temp = 7 B-A + minval = 7 B-A + 8E = 15 B-A-E
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [7 A-F, 8 C-D, 15 B-A-E]
+				sort(Q) return [7 A-F, 8 C-D, 15 B-A-E]
+				temp = Dequeue(Q) return 7 A-F
+		else
+			temp = Dequeue(Q)
+	phase 5:
+		minval = min($(F)) return 3G
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E, 3G]
+			temp = 7 A-F + minval = 7 A-F + 3G = 10 A-F-G
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [8 C-D, 15 B-A-E, 10 A-F-G]
+				sort(Q) return [8 C-D, 15 B-A-E, 10 A-F-G]
+				temp = Dequeue(Q) return 8 C-D
+		else
+			temp = Dequeue(Q)
+	phase 6:
+		minval = min($(D)) return 9K
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 9K]
+			temp = 8 C-D + minval = 8 C-D + 9K = 17 C-D-K
+			if temp is the goal state, then
+				Goal.append(temp) return [17 C-D-K]
+				Exp.remove(minval) return Exp without minval
+				sort(Q) return [10 A-F-G, 15 B-A-E]
+				temp = Dequeue(Q) return 10 A-F-G
+			else
+				Q.enqueue(temp) 
+				sort(Q) return
+				temp = Dequeue(Q)
+		else
+			temp = Dequeue(Q)
+	phase 7:
+		minval = min($(G)) return 7Z
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 7Z]
+			temp = 10 A-F-G + minval = 10 A-F-G + 7Z = 17 A-F-G-Z
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp) return [15 B-A-E, 17 A-F-G-Z]
+				sort(Q) return [15 B-A-E, 17 A-F-G-Z]
+				temp = Dequeue(Q) return 15 B-A-E
+		else
+			temp = Dequeue(Q)
+	phase 8:
+		minval = min($(E)) return 4D
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 7Z]
+			temp = 15 B-A-E + minval = 15 B-A-E + {} = 15 B-A-E
+			if temp is the goal state, then
+				Goal.append(temp)
+				Exp.remove(minval) return Exp without minval
+				sort(Q)
+				temp = Dequeue(Q)
+			else
+				Q.enqueue(temp)
+				sort(Q)
+				temp = Dequeue(Q)
+		else
+			temp = Dequeue(Q) return 17 A-F-G-Z
+	phase 10:
+		minval = min($(Z)) return 9K
+		if minval not in Exp, then
+			Exp.enqueue(minval) return [4B, 3A, 3F, 3D, 8E, 3G, 7Z, 9K]
+			temp = 17 A-F-G-Z + minval = 17 A-F-G-Z + 9K = 26 A-F-G-Z-K
+			if temp is the goal state, then
+				Goal.append(temp) return [17 C-D-K, 26 A-F-G-Z-K]
+				Exp.remove(minval) return Exp without minval
+				sort(Q) return [] (a.k.a empty list or empty set)
+				temp = Dequeue(Q) return nothing
+			else
+				Q.enqueue(temp)
+				sort(Q)
+				temp = Dequeue(Q)
+		else
+			temp = Dequeue(Q)
 phase 11:
-	Since Q = {}, then the loop is terminated.
-	We have 2 solution space, [17 C-D-K, 26 A-F-G-Z-K] with Exp = [4B, 3A, 3F, 3D, 8E, 3G, 9K, 7Z, 9K]
+	Since Q = [], then the while loop is terminated.
+	We have 2 solution space, [17 C-D-K, 26 A-F-G-Z-K] with Exp = [4B, 3A, 3F, 3D, 8E, 3G, 7Z, 9K]
 	solution = min(solution space) return 17 C-D-K
-	thus, 26 A-F-G-Z-K eliminated
+	thus, 26 A-F-G-Z-K is eliminated
 	And the solution is 17 C-D-K
-	Therefore, UCS(Graph, S, K) return 17 S-C-D-K with $(solution) = 17
+	Therefore, UCS(Graph, S, K) return solution in the term or path 17 S-C-D-K with $(solution) = 17
+
+
+P.S:
+-------
+If we start phase 1 with sort(Q) return [4A, 4B, 5C], then it's look like the solution
+we will find is different with the solution where sort(Q) return [4B, 4A, 5C].
