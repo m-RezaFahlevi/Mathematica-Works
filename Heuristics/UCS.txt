@@ -4,7 +4,7 @@ Dated       :   March 11th, 2021
 Affiliation :   Departemen Ilmu Komputer,
                 Fakultas Ilmu Komputer - Teknologi Informasi,
                 Universitas Sumatera Utara, Indonesia
-References  :   Stuart Russell and Peter Norvig. 2020. Artificial Intelligence: A Modern Approach, 4th Edition. University of California at Berkeley. Pearson.
+References  :   Stuart Russell and Peter Norvig. 2016. Artificial Intelligence: A Modern Approach, 3th Edition.  Pearson.
 """
 
 Q = Queue()
