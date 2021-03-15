@@ -61,7 +61,7 @@ E = Vertex("Bucharest", "white")
 # K = Vertex("K", "white")
 # Z = Vertex("Z", "white")
 
-Adj[A] = [(B, 80), (C, 90)]
+Adj[A] = [(B, 80), (C, 99)]
 Adj[B] = [(A, 80), (D, 97)]
 Adj[C] = [(A, 99), (E, 211)]
 Adj[D] = [(B, 97), (E, 101)]
@@ -108,7 +108,7 @@ def addtup(sttup, ndtup):
 
 vertexs = [A, B, C, D, E]
 
-# uncomment line 109 to 134 to see the demonstration
+# uncomment line 112 to 137 to see the demonstration
 """
 # Q is a priority queue
 Q = Queue() # it should be contained the list of tuples
@@ -135,21 +135,23 @@ Q.enqueue(restup)
 Q.sortedtup()
 print(Q.queue)
 """
-
+# uncomment this loop
+# for qitems in Q.queue:
+#     print([q.name for q in qitems[:-1]], qitems[-1])
+# in def ucsearch to print the queue for each phase
 def ucsearch(vertices, goal):
     Goal = Queue()
     Q = Queue() # Goal and Q is a priority queue
     
     node = (vertices, 0) # return [(vertices, 0)]
     Q.enqueue([node])
-    for qitems in Q.queue:
-            print([q.name for q in qitems[:-1]], qitems[-1])
+    # for qitems in Q.queue:
+    #         print([q.name for q in qitems[:-1]], qitems[-1])
     while Q.queue != []:
         Q.sortedtup()
         node = Q.dequeue() # return a tuple
         if node[-2].name == goal.name:
-            Goal.enqueue(list(node))
-            goal.color == "white"
+            Goal.enqueue([node])
         else:
             node[-2].color = "black"
             for vertex in Adj[node[-2]]:
@@ -162,5 +164,9 @@ def ucsearch(vertices, goal):
     return Goal.queue
 
 sol = ucsearch(A, B)
-print(sol)
+# print(sol)
+for qitems in sol:
+    print(f"path : {[q.name for q in qitems[:-1]]}")
+    print(f"cost : {qitems[-1]}")
+    print("")
 # print(B.name)
