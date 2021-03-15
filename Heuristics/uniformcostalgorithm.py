@@ -143,8 +143,8 @@ def ucsearch(vertices, goal):
     Goal = Queue()
     Q = Queue() # Goal and Q is a priority queue
     
-    node = (vertices, 0) # return [(vertices, 0)]
-    Q.enqueue([node])
+    node = (vertices, 0)
+    Q.enqueue([node]) # return [(vertices, 0)]
     # for qitems in Q.queue:
     #         print([q.name for q in qitems[:-1]], qitems[-1])
     while Q.queue != []:
