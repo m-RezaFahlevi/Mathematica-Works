@@ -102,7 +102,7 @@ def addtup(sttup, ndtup):
 
 vertexs = [A, B, C, D, E]
 
-# uncomment line 109 to 134 to see the demonstration
+# uncomment the comment in """ marks to see the demonstration
 """
 # Q is a priority queue
 Q = Queue() # it should be contained the list of tuples
