@@ -11,69 +11,124 @@ References  :   Benjamin Baka. Python Data Structures and Algorithms. 2017. Pack
 """
 
 Adj = dict()
-Cost = dict()
 
 class Queue(object):
+    """
+    By default, it is a class of first in first out (FIFO)
+    queue. Where it takes a tuples as its element. The data type
+    of the queue is a list of tuples.
+    """
     def __init__(self):
         self.queue = list()
     
-    def enqueue(self, nodetup):
-        [self.queue.append(adjacency) for adjacency in nodetup]
-    
+    def enqueue(self, listoftup):
+        """
+        Take a list of tuples as parameter, then
+        add it to self.queue as a new tuples
+        """
+        for tup in listoftup:
+            self.queue.append(tup)
+
     def dequeue(self):
+        """
+        remove the first element of self.queue
+        and return its value (which it is a tuple for this case)
+        """
         temp = self.queue[0]
         self.queue.remove(temp)
         return temp
     
     def sortedtup(self):
-        self.queue.sort(key= lambda cost: cost[1])
+        """
+        Use this method if we want a priority queue, then
+        we have an ascending self.queue
+        """
+        self.queue.sort(key= lambda cost: cost[-1])
 
 class Vertex(object):
     def __init__(self, name, color):
         self.name = name
         self.color = color
 
-A = Vertex("A", "white")
-B = Vertex("B", "white")
-C = Vertex("C", "white")
-D = Vertex("D", "white")
-E = Vertex("E", "white")
-F = Vertex("F", "white")
-G = Vertex("G", "white")
-S = Vertex("S", "white")
-K = Vertex("K", "white")
-Z = Vertex("Z", "white")
+A = Vertex("Sibiu", "white")
+B = Vertex("Rimnicu Vilcea", "white")
+C = Vertex("Fagaras", "white")
+D = Vertex("Pitesti", "white")
+E = Vertex("Bucharest", "white")
+# F = Vertex("F", "white")
+# G = Vertex("G", "white")
+# S = Vertex("S", "white")
+# K = Vertex("K", "white")
+# Z = Vertex("Z", "white")
 
-Adj[A] = [(B, 3), (E, 8), (F, 3), (S, 4)]
-Adj[B] = [(A, 3), (D, 6), (S, 4)]
-Adj[C] = [(D, 3), (S, 5)]
-Adj[D] = [(B, 6), (C, 3), (E, 4), (K, 5)]
-Adj[E] = [(A, 8), (D, 4), (F, 5), (Z, 6)]
-Adj[F] = [(A, 3), (E, 4), (G, 3)]
-Adj[G] = [(F, 3), (Z, 7)]
-Adj[S] = [(A, 4), (B, 4), (C, 5)]
-Adj[K] = [(D, 5), (Z, 9)]
-Adj[Z] = [(E, 6), (G, 7), (K, 9)]
+Adj[A] = [(B, 80), (C, 90)]
+Adj[B] = [(A, 80), (D, 97)]
+Adj[C] = [(A, 99), (E, 211)]
+Adj[D] = [(B, 97), (E, 101)]
 
-vertexs = [S, A, B, C, D, E, F, G, K, Z]
+# Adj[A] = [(B, 3), (E, 8), (F, 3), (S, 4)]
+# Adj[B] = [(A, 3), (D, 6), (S, 4)]
+# Adj[C] = [(D, 3), (S, 5)]
+# Adj[D] = [(B, 6), (C, 3), (E, 4), (K, 5)]
+# Adj[E] = [(A, 8), (D, 4), (F, 5), (Z, 6)]
+# Adj[F] = [(A, 3), (E, 4), (G, 3)]
+# Adj[G] = [(F, 3), (Z, 7)]
+# Adj[S] = [(A, 4), (B, 4), (C, 5)]
+# Adj[K] = [(D, 5), (Z, 9)]
+# Adj[Z] = [(E, 6), (G, 7), (K, 9)]
 
-Q = Queue()
+def minadj(lsttup):
+    """
+    Taka a list of tuple as its parameter, then return
+    an adjacency which it is not visited/explored/black
+    with minimum weight / cost.
+    """
+    templist = []
+    for tup in lsttup:
+        if tup[0].color == "white":
+            templist.append(tup)
+    templist.sort(key= lambda weigth: weigth[-1])
+    choosenadj = templist[0]
+    return choosenadj # it is a tuple
 
 def addtup(sttup, ndtup):
-    temp = sttup[:-1] + ndtup[:-1]
-    val = sttup[-1] + ndtup[-1]
-    tup = temp + (val,)
-    return tup
+    """
+    Take two tuple as its parameter, where the different
+    length of both tuples is allowed, then return a list of
+    a tuple. How this function
+    work is as follows: sttup:= 4A, ndtup:= 5B, then
+    it will return 4A + 5B or 9 A-B. In this case,
+    it will return [(A, B, 9)]
+    """
+    sumtup = [sttup[:-1] + ndtup[:-1] + (sttup[-1] + ndtup[-1],)]
+    return sumtup # it is a list of a tuple
 
-def mintup(thetup):
-    thetup.sort(key= lambda cost: cost[1])
-    return thetup[0]
+vertexs = [A, B, C, D, E]
 
-Q.enqueue(Adj[S])
+# uncomment line 109 to 134 to see the demonstration
+"""
+# Q is a priority queue
+Q = Queue() # it should be contained the list of tuples
+
+Q.enqueue(Adj[A]); A.color = "black"
 Q.sortedtup()
+print([(q[0].name, q[1]) for q in Q.queue])
+
 temp = Q.dequeue()
-temp[0].color = "black"; print(temp[0].name)
-minval = mintup(Adj[temp[0]])
-addtups = addtup(temp, minval)
-print(addtups)
-print(addtups[0].name, addtups[1].name)
+tempvertex = temp[0]
+print(tempvertex.name, temp[1])
+
+minvertex = minadj(Adj[tempvertex])
+print(minvertex[0].name, minvertex[1])
+
+res = addtup(temp, minvertex)[0]
+restup = addtup(temp, minvertex)
+print(restup)
+print([q.name for q in res[:-1]], res[-1])
+
+print("")
+print([(q[0].name, q[1]) for q in Q.queue])
+Q.enqueue(restup)
+Q.sortedtup()
+print(Q.queue)
+"""
