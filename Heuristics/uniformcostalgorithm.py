@@ -65,6 +65,7 @@ Adj[A] = [(B, 80), (C, 90)]
 Adj[B] = [(A, 80), (D, 97)]
 Adj[C] = [(A, 99), (E, 211)]
 Adj[D] = [(B, 97), (E, 101)]
+Adj[E] = [(C, 211), (D, 101)]
 
 # Adj[A] = [(B, 3), (E, 8), (F, 3), (S, 4)]
 # Adj[B] = [(A, 3), (D, 6), (S, 4)]
@@ -100,6 +101,8 @@ def addtup(sttup, ndtup):
     it will return 4A + 5B or 9 A-B. In this case,
     it will return [(A, B, 9)]
     """
+    if sttup == ndtup:
+        return list(sttup)
     sumtup = [sttup[:-1] + ndtup[:-1] + (sttup[-1] + ndtup[-1],)]
     return sumtup # it is a list of a tuple
 
@@ -132,3 +135,32 @@ Q.enqueue(restup)
 Q.sortedtup()
 print(Q.queue)
 """
+
+def ucsearch(vertices, goal):
+    Goal = Queue()
+    Q = Queue() # Goal and Q is a priority queue
+    
+    node = (vertices, 0) # return [(vertices, 0)]
+    Q.enqueue([node])
+    for qitems in Q.queue:
+            print([q.name for q in qitems[:-1]], qitems[-1])
+    while Q.queue != []:
+        Q.sortedtup()
+        node = Q.dequeue() # return a tuple
+        if node[-2].name == goal.name:
+            Goal.enqueue(list(node))
+            goal.color == "white"
+        else:
+            node[-2].color = "black"
+            for vertex in Adj[node[-2]]:
+                if vertex[0].color == "white":
+                    descendant = addtup(node, vertex)
+                    Q.enqueue(descendant)
+            # for qitems in Q.queue:
+            #     print([q.name for q in qitems[:-1]], qitems[-1], end=" ")
+            # print("")
+    return Goal.queue
+
+sol = ucsearch(A, B)
+print(sol)
+# print(B.name)
