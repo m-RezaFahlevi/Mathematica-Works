@@ -17,7 +17,7 @@ class Queue(object):
     By default, it is a class of first in first out (FIFO)
     queue. Where it takes a tuples as its element. The data type
     of the queue is a list of tuples. In this case (A* algorithm),
-    self.queue contain a list of a tuples (path, cost(path), hsld)
+    self.queue contain a list of a tuples (path, cost(path), evalfun)
     """
     def __init__(self):
         self.queue = list()
