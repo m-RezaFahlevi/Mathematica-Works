@@ -90,7 +90,7 @@ def addtup(sttup, ndtup):
     a tuple. How this function
     work is as follows: sttup:= (4A, hsld(A)), ndtup:= (5B, hsld(B)), 
     then it will (path(A-B), cost(path), cost(path) + hsld(B)). In this
-    case, it will return [(A, B, fn)] where fn = cost(path) + hsld(B)
+    case, it will return [(A, B, cost(path), fn)] where fn = cost(path) + hsld(B)
     """
     if sttup == ndtup:
         return list(sttup)
