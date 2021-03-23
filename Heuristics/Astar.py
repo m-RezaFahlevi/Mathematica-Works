@@ -89,7 +89,7 @@ def addtup(sttup, ndtup):
     length of both tuples is allowed, then return a list of
     a tuple. How this function
     work is as follows: sttup:= (4A, hsld(A)), ndtup:= (5B, hsld(B)), 
-    then it will (path(A-B), cost(path), cost(path) + hsld(B)). In this
+    then it will return (path(A-B), cost(path), cost(path) + hsld(B)). In this
     case, it will return [(A, B, cost(path), fn)] where fn = cost(path) + hsld(B)
     """
     if sttup == ndtup:
@@ -121,10 +121,11 @@ def astar(vertices, hsld, goal):
     Goal = Queue()
     node = (vertices, 0, hsld)
     Q.enqueue([node])
-    # for qitems in Q.queue:
-    #     print([q.name for q in qitems[:-2]], qitems[-1])
     while Q.queue != []:
         Q.sortedtup()
+        # for qitems in Q.queue:
+        #     print([q.name for q in qitems[:-2]], qitems[-1], end=" ")
+        # print("")
         node = Q.dequeue()
         if node[-3].name == goal.name:
             Goal.enqueue([node])
@@ -134,9 +135,6 @@ def astar(vertices, hsld, goal):
                 if vertex[0].color == "white":
                     descendant = addtup(node, vertex)
                     Q.enqueue(descendant)
-            # for qitems in Q.queue:
-            #     print([q.name for q in qitems[:-2]], qitems[-1], end=" ")
-            # print("")
     return Goal.queue
 
 sol = astar(A, 366, N)
@@ -144,5 +142,4 @@ sol = astar(A, 366, N)
 for qitems in sol:
     print(f"path : {[q.name for q in qitems[:-2]]}")
     print(f"cost : {qitems[-2]}")
-    print(f"fn : {qitems[-1]}")
     print("")

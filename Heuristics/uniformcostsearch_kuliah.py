@@ -102,7 +102,7 @@ def addtup(sttup, ndtup):
 
 vertexs = [A, B, C, D, E]
 
-# uncomment the comment in """ marks to see the demonstration
+# uncomment line 106 to 131 to see the demonstration
 """
 # Q is a priority queue
 Q = Queue() # it should be contained the list of tuples
@@ -139,10 +139,11 @@ def ucsearch(vertices, goal):
     
     node = (vertices, 0)
     Q.enqueue([node]) # return [(vertices, 0)]
-    # for qitems in Q.queue:
-    #         print([q.name for q in qitems[:-1]], qitems[-1])
     while Q.queue != []:
         Q.sortedtup()
+        # for qitems in Q.queue:
+        #     print([q.name for q in qitems[:-1]], qitems[-1], end=" ")
+        # print("")
         node = Q.dequeue() # return a tuple
         if node[-2].name == goal.name:
             Goal.enqueue([node])
@@ -152,9 +153,6 @@ def ucsearch(vertices, goal):
                 if vertex[0].color == "white":
                     descendant = addtup(node, vertex)
                     Q.enqueue(descendant)
-            # for qitems in Q.queue:
-            #     print([q.name for q in qitems[:-1]], qitems[-1], end=" ")
-            # print("")
     return Goal.queue
 
 sol = ucsearch(S, K)
