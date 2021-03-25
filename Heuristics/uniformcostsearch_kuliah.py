@@ -61,12 +61,12 @@ S = Vertex("S", "white")
 K = Vertex("K", "white")
 Z = Vertex("Z", "white")
 
-Adj[A] = [(B, 3), (E, 8), (F, 3), (S, 4)]
+Adj[A] = [(B, 3), (E, 8), (F, 4), (S, 4)]
 Adj[B] = [(A, 3), (D, 6), (S, 4)]
 Adj[C] = [(D, 3), (S, 5)]
 Adj[D] = [(B, 6), (C, 3), (E, 4), (K, 5)]
 Adj[E] = [(A, 8), (D, 4), (F, 5), (Z, 6)]
-Adj[F] = [(A, 3), (E, 4), (G, 3)]
+Adj[F] = [(A, 4), (E, 4), (G, 3)]
 Adj[G] = [(F, 3), (Z, 7)]
 Adj[S] = [(A, 4), (B, 4), (C, 5)]
 Adj[K] = [(D, 5), (Z, 9)]
@@ -139,11 +139,14 @@ def ucsearch(vertices, goal):
     
     node = (vertices, 0)
     Q.enqueue([node]) # return [(vertices, 0)]
+    count = 0
     while Q.queue != []:
         Q.sortedtup()
-        # for qitems in Q.queue:
-        #     print([q.name for q in qitems[:-1]], qitems[-1], end=" ")
-        # print("")
+        count += 1
+        print(f"phase {count}")
+        for qitems in Q.queue:
+            print(f"({[q.name for q in qitems[:-1]]}, cost = {qitems[-1]})", end=" ")
+        print("")
         node = Q.dequeue() # return a tuple
         if node[-2].name == goal.name:
             Goal.enqueue([node])
@@ -155,7 +158,7 @@ def ucsearch(vertices, goal):
                     Q.enqueue(descendant)
     return Goal.queue
 
-sol = ucsearch(S, K)
+sol = ucsearch(S, Z)
 # print(sol)
 for qitems in sol:
     print(f"path : {[q.name for q in qitems[:-1]]}")
