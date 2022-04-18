@@ -1,0 +1,920 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\use_default_options true
+\begin_removed_modules
+theorems-ams
+\end_removed_modules
+\begin_modules
+eqs-within-sections
+figs-within-sections
+theorems-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.24in
+\topmargin 1in
+\rightmargin 1.24in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Right Address
+Medan, Sumatera Utara, Indonesia
+\end_layout
+
+\begin_layout Title
+Simple Linear Regression and Correlation
+\end_layout
+
+\begin_layout Author
+Muhammad Reza Fahlevi
+\end_layout
+
+\begin_layout Date
+April 14th, 2022
+\end_layout
+
+\begin_layout Abstract
+This is abstract
+\end_layout
+
+\begin_layout Address
+Medan
+\end_layout
+
+\begin_layout Current Address
+Medan juga
+\end_layout
+
+\begin_layout Email
+muhammadrezafahlevi666@gmail.com
+\end_layout
+
+\begin_layout URL
+github.com/m-RezaFahlevi
+\end_layout
+
+\begin_layout Keywords
+simple linear regression, correlation
+\end_layout
+
+\begin_layout Thanks
+Thank you
+\end_layout
+
+\begin_layout Dedicatory
+To Myself
+\end_layout
+
+\begin_layout Subjectclass
+Probability and Statistics
+\end_layout
+
+\begin_layout Definition
+Simple linear regression model is a random variable 
+\begin_inset Formula $Y$
+\end_inset
+
+ such that 
+\begin_inset Formula 
+\[
+Y=\beta_{0}+\beta_{1}x+\epsilon
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ is the intercept,
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ is the slope, 
+\begin_inset Formula $x$
+\end_inset
+
+ is a regression, and 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is a random noise, where 
+\begin_inset Formula $\epsilon\sim\mathcal{N}(0,\sigma)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The fitted regression line of random variable 
+\begin_inset Formula $Y$
+\end_inset
+
+ is 
+\begin_inset Formula 
+\[
+\hat{y}=\hat{\beta}_{0}+\hat{\beta}_{1}x
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\hat{\beta}_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\beta}_{1}$
+\end_inset
+
+ are estimators of 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+, respectively.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Given a set of regressor data 
+\begin_inset Formula $\{(x_{i},y_{i}):i=1,2,\ldots,n\}$
+\end_inset
+
+ and a fitted model 
+\begin_inset Formula $\hat{y}_{i}=\hat{\beta}_{0}+\hat{\beta}_{1}x_{i}$
+\end_inset
+
+, the 
+\begin_inset Formula $i$
+\end_inset
+
+th-residual 
+\begin_inset Formula $e_{i}$
+\end_inset
+
+ is given by 
+\begin_inset Formula 
+\[
+e_{i}=y_{i}-\hat{y}_{i}
+\]
+
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,2,\ldots,n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The sum of squares of residuals, or, the sum of squares of the errors 
+\emph on
+SSE
+\emph default
+ is defined as 
+\begin_inset Formula 
+\[
+\textit{SSE}:=\sum_{i=1}^{n}e_{i}^{2}=\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+ is the estimator of statistics 
+\begin_inset Formula $\Theta$
+\end_inset
+
+, such that 
+\begin_inset Formula 
+\[
+\frac{\partial\textit{SSE}}{\partial\hat{\theta}}=0
+\]
+
+\end_inset
+
+ then 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+ is called 
+\emph on
+the least squares estimators.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Given the sample 
+\begin_inset Formula $\{(x_{i},y_{i}):i=1,2,\ldots,n\}$
+\end_inset
+
+, the least squares estimates 
+\begin_inset Formula $\hat{\beta}_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\beta}_{1}$
+\end_inset
+
+ of the regressor coefficient 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ are computed from the formulas 
+\begin_inset Formula 
+\begin{align*}
+\hat{\beta}_{1} & =\dfrac{{\displaystyle n\sum_{i=1}^{n}x_{i}y_{i}-\sum_{i=1}^{n}x_{i}\sum_{i=1}^{n}y_{i}}}{{\displaystyle n\sum_{i=1}^{n}x_{i}^{2}-\left(\sum_{i=1}^{n}x_{i}\right)^{2}}}=\dfrac{{\displaystyle \sum_{i=1}^{n}(x_{i}-\bar{x})(y_{i}-\bar{y})}}{{\displaystyle \sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}}\qquad\textit{and}\\
+\hat{\beta}_{0} & =\dfrac{{\displaystyle \sum_{i=1}^{n}y_{i}-\hat{\beta}_{1}\sum_{i=1}^{n}x_{i}}}{n}=\bar{y}-\hat{\beta}_{1}\bar{x}
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\bar{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{y}$
+\end_inset
+
+ are the means of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+, respectively.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $Y=\beta_{0}+\beta_{1}x+\epsilon$
+\end_inset
+
+ be simple linear model, and let 
+\begin_inset Formula $\{Y_{i}:i\in\mathbb{N}\}$
+\end_inset
+
+ be a set of identical independent distributed random variable, then 
+\begin_inset Formula 
+\[
+\mu_{Y\vert x_{i}}=\mathbb{E}\{Y\vert_{x_{i}}\}=\beta_{0}+\beta_{1}x_{i}\quad\text{and}\quad\sigma_{Y\vert x_{i}}^{2}=\sigma^{2}
+\]
+
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,2,\ldots,n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:prop8"
+
+\end_inset
+
+Assuming that for simple linear regression 
+\begin_inset Formula $\{Y_{i}:i\in\mathbb{N}\}$
+\end_inset
+
+ and regressor data 
+\begin_inset Formula $\{(x_{i}^{(k)},y_{i}^{(k)}):k\in\mathbb{N},i=1,2,\ldots,n\}$
+\end_inset
+
+, 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ are independent and normally distributed with zero means and common variances
+ 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\epsilon\sim\mathcal{N}(0,\sigma)$
+\end_inset
+
+, then the least squares estimator of 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mu_{Y\vert x}=\beta_{0}+\beta_{1}x$
+\end_inset
+
+ is normally distributed with means 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ and variances 
+\begin_inset Formula 
+\[
+\sigma_{B_{1}}^{2}=\dfrac{\sigma^{2}}{{\displaystyle \sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}}
+\]
+
+\end_inset
+
+ i.e., 
+\begin_inset Formula $B_{1}\sim\mathcal{N}(\beta_{1},\sigma_{B_{1}})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:prop9"
+
+\end_inset
+
+(continued of 
+\series bold
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:prop8"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\series default
+) The least squares estimators of 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mu_{Y\vert x}=\beta_{0}+\beta_{1}x$
+\end_inset
+
+ is normally distributed with means 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ and variances 
+\begin_inset Formula 
+\[
+\sigma_{B_{0}}^{2}=\dfrac{{\displaystyle \sum_{i=1}^{n}x_{i}^{2}}}{{\displaystyle n\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}}\sigma^{2}
+\]
+
+\end_inset
+
+ i.e., 
+\begin_inset Formula $B_{0}\sim\mathcal{N}(\beta_{0},\sigma_{B_{0}})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+From 
+\series bold
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:prop8"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ 
+\series default
+and 
+\series bold
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:prop9"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\series default
+, it is apparent that the least squares estimators for 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ are both unbiased estimators.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Notation 1.
+ 
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Notation 1"
+
+\end_inset
+
+The symbols 
+\begin_inset Formula $S_{xx},S_{yy},$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{xy}$
+\end_inset
+
+ are defined as follows, 
+\begin_inset Formula 
+\begin{align*}
+S_{xx} & =\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}\quad;\quad S_{yy}=\sum_{i=1}^{n}(y_{i}-\bar{y})^{2}\quad;\quad\text{and}\quad S_{xy}=\sum_{i=1}^{n}(x_{i}-\bar{x})(y_{i}-\bar{y})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+From 
+\series bold
+
+\begin_inset CommandInset ref
+LatexCommand labelonly
+reference "Notation 1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\series default
+, then the least squares estimators of 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mu_{Y\vert x}=\beta_{0}+\beta_{1}x$
+\end_inset
+
+ may be written as 
+\begin_inset Formula 
+\[
+\hat{\beta}_{1}=\frac{S_{xy}}{S_{xx}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Again, from 
+\series bold
+
+\begin_inset CommandInset ref
+LatexCommand labelonly
+reference "Notation 1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{B_{1}}^{2}$
+\end_inset
+
+ 
+\series default
+and 
+\begin_inset Formula $\sigma_{B_{0}}^{2}$
+\end_inset
+
+ from 
+\series bold
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:prop9"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ 
+\series default
+and 
+\series bold
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:prop8"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\series default
+, respectively, can be written as 
+\begin_inset Formula 
+\[
+\sigma_{B_{1}}^{2}=\frac{\sigma^{2}}{S_{xx}}\quad\textit{and}\quad\sigma_{B_{0}}^{2}=\frac{\sigma^{2}}{nS_{xx}}\sum_{i=1}^{n}x_{i}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:An-unbiased-estimate"
+
+\end_inset
+
+An unbiased estimate of 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+ is 
+\begin_inset Formula 
+\[
+s^{2}=\frac{\textit{SSE}}{n-2}=\dfrac{{\displaystyle \sum_{i=1}^{n}(y_{i}-\bar{y})^{2}}}{n-2}=\frac{S_{yy}-\hat{\beta}_{1}S_{xy}}{n-2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The important parameters 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+, estimated by 
+\begin_inset Formula $s^{2}$
+\end_inset
+
+
+\series bold
+ 
+\series default
+in 
+\series bold
+Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:An-unbiased-estimate"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ 
+\series default
+is called a 
+\emph on
+mean squared error
+\emph default
+, depicting a type of mean (division by 
+\begin_inset Formula $n-2$
+\end_inset
+
+) of the squared residuals.
+
+\series bold
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The regression line with intercept equals to zero, i.e., for 
+\begin_inset Formula $i=1,2,\ldots,n.$
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+Y_{i}=\beta_{1}x_{i}+\epsilon_{i}
+\]
+
+\end_inset
+
+ is often called the regression through the origin model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Given the sample 
+\begin_inset Formula $\{(x_{i},y_{i});i=1,2,\ldots,n\}$
+\end_inset
+
+, the least squares estimators of 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ in the regression hrought the origin model is computed from the formulas
+ 
+\begin_inset Formula 
+\[
+\hat{\beta}_{1}=\left(\sum_{i=1}^{n}x_{i}y_{i}\right)\Bigg/\left(\sum_{i=1}^{n}x_{i}^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $\{Y_{i}:i\in\mathbb{N}\}$
+\end_inset
+
+ be a set of regression through the origin model and regressor data 
+\begin_inset Formula $\{x_{i}^{(k)},y_{i}^{(k)}:k\in\mathbb{N},i=1,2,\ldots,n\},$
+\end_inset
+
+ 
+\begin_inset Formula $\epsilon_{i}\sim\mathcal{N}(0,\sigma)$
+\end_inset
+
+, then the least squares estimators of 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mu_{Y\vert x_{i}}=\beta_{1}x_{i}+\epsilon_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $B_{1}\sim\mathcal{N}(\beta_{1},\sigma_{B_{1}})$
+\end_inset
+
+ where
+\begin_inset Formula 
+\[
+\sigma_{B_{1}}^{2}=\sigma^{2}\mathop{\Bigg/\sum_{i=1}^{n}x_{i}^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Ronald E.
+ Walpole, Raymond H.
+ Myers, Sharon L.
+ Myers, and Keying Ye.
+ Probability & Statistics for Engineers & Scientists, Nineth Global edition
+ (9th glob.
+ ed.).
+ Pearson.
+\end_layout
+
+\end_body
+\end_document

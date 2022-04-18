@@ -1,0 +1,435 @@
+---
+title: "Dem 11.36"
+author: "Muhammad Reza Fahlevi"
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+----
+
+```{r include=FALSE}
+# Prepare the tools
+library(dplyr)
+library(ggplot2)
+```
+
+
+# Problems
+The dataset consists of variable relating to blood pressure
+of 15 Peruvians ($n = 15$) who have moved from rural, high-
+altitude areas to urban, lower altitude areas. The variables
+in this data sets are: Systolic blood pressure ($Y$),
+weight ($X_1$), height ($X_2$), and pulse.
+```{r echo=FALSE}
+systolic_pressure_mmHg <- c(
+    170, 120, 125, 148, 140, 
+    106, 120, 108, 124, 134,
+    116, 114, 130, 118, 138
+)
+weight_kg <- c(
+    71.0, 56.5, 56.0, 61.0, 65.0,
+    62.0, 53.0, 53.0, 65.0, 57.0,
+    66.5, 59.1, 64.0, 69.5, 64.0
+)
+height_mm <- c(
+    1629, 1569, 1561, 1619, 1566,
+    1639, 1494, 1568, 1540, 1530,
+    1622, 1486, 1578, 1645, 1648
+)
+pulse_per_minute <- c(
+    88, 64, 68, 52, 72,
+    72, 64, 80, 76, 60,
+    68, 72, 88, 60, 60
+)
+dem_11_36 <- data.frame(
+    "Weight_kg" = weight_kg, # X1
+    "Heigh_mm" = height_mm, # X2
+    "Pulse_per_minute" = pulse_per_minute,
+    "Systolic_pressure_mmHg" = systolic_pressure_mmHg # Y
+)
+dem_11_36
+```
+i. Determine if weight and systolic blood pressure
+are in a linear relationship, that is, test whether
+$H_0 : \beta_{1.0} = 0$, where $\beta_1$ is the slope of the regressor
+variable.
+ii. Perform a lack-of-ﬁt test to determine if linear
+relationship between weight and systolic blood
+pressure is adequate. Draw conclusions.
+iii. Determine if pulse rate inﬂuences systolic blood
+pressure in a linear relationship. Which regressor
+variable is the better predictor of the systolic blood
+pressure?
+
+# Demonstrandum
+Let
+
+$$
+\begin{align}
+x_1 &\stackrel{def} = \text{weight} \\
+x_2 &\stackrel{def} = \text{height} \\
+p &\stackrel{def} = \text{pulse}
+\end{align}
+$$
+The simple linear regression for given data $\{(x_i, y_i) : i = 1, 2, \ldots, n\}$ is defined as
+
+$$
+Y = \beta_0 + \beta_1x
+$$
+$Y$ is estimated by
+$$
+\hat{y} = b_0 + b_1x
+$$
+where $b_0$ and $b_1$ are regression's coefficient estimator for $\beta_0$ and $\beta_1$, respectively. These estimator is computed as follows,
+
+$$
+\begin{align}
+b_0 &= \frac{n\sum_{i = 1}^{n}x_iy_i - \sum_{i = 1}^{n}x_i\sum_{i = 1}^{n}y_i}
+{n\sum_{i = 1}^{n}x_i^2 - \left(\sum_{i = 1}^{n}x_i\right)^2}, &\text{and} \\
+
+b_1 &= \frac{\sum_{i = 1}^{n}y_i - b_1\sum_{i = 1}^{n}x_i}{n}
+\end{align}
+$$
+
+```{r include=FALSE}
+# preparation
+lmodels_X1 <-lm(
+    "Systolic_pressure_mmHg~Weight_kg",
+    data = dem_11_36
+)
+lmodels_pulse <- lm(
+    "Systolic_pressure_mmHg~Pulse_per_minute",
+    data = dem_11_36
+)
+lmodels_X2 <- lm(
+    "Systolic_pressure_mmHg~Heigh_mm",
+    data = dem_11_36
+)
+```
+
+## Take a Glimpse to the Data
+
+The following output is the summarize of the given data
+```{r echo=FALSE}
+summary(dem_11_36)
+```
+
+
+## Hypothesis Testing on the Slope for Regressor Variable $x_1$
+
+The hypothesis that's being tested is the slope of the regression line $\hat{y} = \beta_0 + \beta_1x$
+
+$$
+\begin{cases}
+H_0:\beta_{1.0} = 0 \\
+H_1:\beta_{1.1} \neq 0 \\
+\end{cases}
+$$
+
+In order to make decision with regards to the hypothesis, the analysis of 
+variances is performed.
+
+**Step 1.** Construct the linear model for $X_1$,
+```{r echo=FALSE}
+lmodels_X1
+```
+
+then for $\hat{y} = b_0 + b_1x_1$,
+$$
+\hat{y} = 44.398 + 1.349x_1
+$$
+
+**Step 2.** Compute the *one-way ANOVA*
+```{r}
+anova(lmodels_X1)
+```
+
+**Step 3.** Conclusion. Let $\alpha = 0.05$, the critical value for $f_\alpha(1, n-2)$
+```{r echo=FALSE}
+skripsi::f_local_search(0.05, 1, 15 - 2)
+```
+
+According to *one-way ANOVA* tables, the computed f-values $f_\text{reg} = 
+3.3645$. Hence, $f_\text{reg} < f_{0.05}(1, 13)$. Therefore, the hypothesis
+testing lead to *do not reject $H_0 : \beta_{1.0} = 0$ at $\alpha=0.05$ level
+of significance*.
+
+## ANOVA for Testing Linearity of Regression $Y \sim x_1$
+
+In order to determine the linear relationship between weight ($x_1$) and 
+the systolic blood pressure ($Y$) is adequate or not, the *ANOVA for testing
+linearity of regression* is performed.
+
+```{r echo=FALSE}
+plt_lm_x1 <- ggplot(dem_11_36, aes(weight_kg, systolic_pressure_mmHg)) +
+    geom_point(aes(color = Systolic_pressure_mmHg)) +
+    geom_smooth(method = lm, formula = "y~x") +
+    ggtitle("Regreesion line y~x1")
+plt_lm_x1
+```
+
+
+**Step 1.** Compute the sum of square $\text{SSR, SSE, SSE(pure)}$ and 
+lack-of-fit. The $\text{SSR}$ is computed as follows,
+$$
+\begin{align}
+\text{SSR} &= \sum_{i = 1}^{n}(\hat{y_i} - \bar{y})^2 \\
+&= 805.86
+\end{align}
+$$
+
+on $1$ degrees of freedom. The $\text{SSE}$ is computed as follows,
+$$
+\begin{align}
+\text{SSE} &= \sum_{i = 1}^{n}(y_i - \hat{y_i})^2 \\
+&= 3113.74
+\end{align}
+$$
+
+on $n-2=13$ degrees of freedom. For data which contain $k$-groups, the $\text{SSE(pure)}$ is computed as follows,
+$$
+\begin{align}
+\text{pure error } &:= 
+\sum_{i = 1}^{k}\sum_{j = 1}^n (y^{(i)}_j - \bar{y}^{(i)})^2
+\end{align}
+$$
+where
+
+$$
+\bar{y}^{(i)} = \frac{1}{n_i}\sum_{j = 1}^{n_i}y^{(i)}_j
+$$
+
+for $i = 1, 2, \ldots, k$ and $j = 1, 2, \ldots, n_i$. In order to compute the pure error, the data must be group by the regressor variable $(x_1)$.
+```{r echo=FALSE}
+dem_11_36 %>% tibble %>%
+    select(Weight_kg, Systolic_pressure_mmHg) %>%
+    arrange(Weight_kg) %>% group_by(Weight_kg)
+```
+
+then
+
+```{r echo=FALSE}
+# ANOVA for testing linearity of regression for x1
+dem_11_36 %>% tibble %>%
+    select(Weight_kg, Systolic_pressure_mmHg) %>%
+    arrange(Weight_kg) %>% group_by(Weight_kg) %>%
+    summarise(mean_y_ith = mean(Systolic_pressure_mmHg),
+              sum_sqr_y_ith = sum((Systolic_pressure_mmHg - mean(Systolic_pressure_mmHg)) ** 2))
+```
+from the tables, $k = 12$ groups, the second column is equals to $\bar{y}^{(i)}$, the third column is the value of
+$$\sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})$$
+and the sum of third column is equals to the so called $\text{pure error}$, thus,
+$$
+\text{pure error} := 232.00
+$$
+on $n - k = 3$ degrees of freedom.
+
+The differences between $\text{SSE}$ and $\text{SSE(pure)}$ is equals to the 
+so called *lack-of-fit*, hence,
+$$
+\begin{align}
+\text{lack-of-fit} := \text{SSE} - \text{SSE(pure)} &=
+\sum_{i = 1}^{n}(y_i - \hat{y}_i)^2 -
+\sum_{i = 1}^k \sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})^2 \\
+&= 3113.74 - 232.00 \\
+&= 2881.74
+\end{align}
+$$
+on $k - 2 = 10$ degrees of freedom.
+
+**Step 2.** Compute the mean square for $\text{SSE}, \text{SSE(pure)}$ and 
+$\text{lack-of-fit}$. The mean square for $\text{SSE}$,
+$$
+\begin{align}
+s^2 &= \frac{\text{SSE}}{n - 2} = 
+\sum_{i = 1}^{n} \frac{(y_i - \hat{y}_i)^2}{n - 2} =
+\frac{S_{yy} - b_1S_{xy}}{n - 2} \\
+&= \frac{3113.74}{15 - 2} = \frac{3113.74}{13} \\
+s^2 &= 239.52
+\end{align}
+$$
+
+The mean square for *pure-error*,
+$$
+\begin{align}
+s^2_{\text{pure}} &= \frac{\text{pure error}}{n - k} =
+\sum_{i = 1}^{k}\sum_{j = 1}^{n_i} \frac{(y^{(i)}_j - 
+\bar{y}^{(i)})^2}{n - k} \\
+&= \frac{232.00}{15 - 12} \\ &= \frac{232.00}{3} \\
+s^2_{\text{pure}} &= 77.33
+\end{align}
+$$
+
+The mean square for *lack-of-fit*,
+$$
+\begin{align}
+s^2_{\text{lack-of-fit}} &= \frac{\text{lack-of-fit}}{k - 2}
+= \frac{\text{SSE} - \text{SSE(pure)}}{k - 2} \\
+&= \frac{1}{k - 2} \left\{
+\sum_{i = 1}^{n}(y_i - \hat{y}_i)^2 -
+\sum_{i = 1}^{k} \sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})^2
+\right\} \\
+&= \frac{3113.74 - 232.00}{12 - 2} \\
+&= \frac{2881.74}{10} \\
+s^2_{\text{lack-of-fit}} &= 288.17
+\end{align}
+$$
+
+**Step 3.** Compute the f-values. For $f_\text{reg}$
+$$
+\begin{align}
+f_\text{reg} &= \frac{\text{SSE}}{s^2_\text{pure}} \\
+&= \frac{3113.74}{77.33} \\
+f_\text{reg} &= 10.4206
+\end{align}
+$$
+
+on 1 and $n - 2 = 13$ degrees of freedom, and for $f_\text{lack-of-fit}$,
+$$
+\begin{align}
+f_\text{lack-of-fit} &= \frac{\text{lack-of-fit}}{s^2_\text{pure}(k - 2)} \\
+&= \frac{\text{SSE} - \text{SSE(pure)}}{s^2_\text{pure}(k - 2)} \\
+&= \frac{2881.74}{77.33 \times (12 - 2)} \\
+&= \frac{2881.74}{77.33 \times 10} \\
+&= \frac{2881.74}{773.3} \\
+f_\text{lack-of-fit} &= 3.7264
+\end{align}
+$$
+on $k - 2 = 10$ and $n - k = 3$ degrees of freedom.
+
+**Step 4.** Compute the P-values
+```{r echo=FALSE}
+paste("P-values for f_regression :=", 1 - pf(10.4206, 1, 13))
+paste("P-values for f_lack-of-fit := ", 1 - pf(3.7264, 10, 3))
+```
+
+**Step 5.** Summarize altogether computation as table of *ANOVA for testing for linearity of regression.*
+
+```{r}
+EnvStats::anovaPE(lmodels_X1)
+```
+
+**Step 6 (Conclusion).** Let $\alpha = 0.05$, then the critical value for
+$$f_\alpha(1, n-2) = f_\alpha(1, 13) = 4.667193$$, and 
+$$f_\alpha(k-2, n-k) = f_\alpha(10, 3) = 8.785525$$ From the table of 
+*ANOVA for testing the linearity of regression*, 
+$f_\text{reg} > f_\alpha(1,13)$ is **true**, and 
+$f_\text{lack-of-fit} > f_\alpha(10, 3)$ is **false**. Therefore, there are 
+significant amount of variation accounted for by linear model 
+(*reject $H_0 : \beta_{1.0} = 0$*) and insignificant amount due 
+to lack of fit. Thus, the experimental data do not seem to suggest
+the need to consider terms higher than ﬁrst order in the model, and the null
+hypothesis is not rejected.
+
+## ANOVA for Testing Linearity of Regression $Y \sim p$
+
+As usual, in order to determine the linear relationship between pulse rate 
+($p$) and the systolic blood pressure ($Y$) is adequate or not, 
+the *Analysis of Variances for testing linearity of regression* is performed.
+
+**Step 1.** Construct the linear model $\hat{y} = b_0 + b_1p$
+```{r echo=FALSE}
+lmodels_pulse
+```
+therefore, $$\hat{y} = 117.0641 + 0.1485p$$
+
+```{r echo=FALSE}
+plt_lm_pressure <- ggplot(dem_11_36, aes(Pulse_per_minute, Systolic_pressure_mmHg)) +
+    geom_point(aes(color = Systolic_pressure_mmHg)) +
+    geom_smooth(method = lm, formula = "y~x") +
+    ggtitle("Regression line y~pulse")
+plt_lm_pressure
+```
+
+
+**Step 2.** Compute the $\text{SSR}$, $\text{SSE}$, $\text{pure-error}$, and
+$\text{lack-of-fit}$.
+
+**Step 3.** Compute the mean square error for $\text{SSE}$, 
+$\text{pure-error}$, and $\text{lack-of-fit}$.
+
+**Step 4.** Compute the $f$-value for regression and $\text{lack-of-fit}$.
+
+**Step 5.** Compute the $P\text{-values}$ for $f_{\text{reg}}$ and
+$f_{\text{lack-of-fit}}$
+
+**Step 6.** Summarize altogether results into table of
+*ANOVA for testing linearity of regression*.
+```{r}
+EnvStats::anovaPE(lmodels_pulse)
+```
+
+**Step 7 (Conclusion).** Let $\alpha = 0.05$, recall the critical value for
+$f_\alpha(1, 13)$ and $f_\alpha(10, 3)$. From the table of ANOVA for testing
+the linearity of regression, $f_\text{reg} > f_\alpha(1, 13)$ is **false**,
+and $f_{\text{lack-of-fit}} > f_\alpha(10, 3)$  is **false**. Therefore, there
+are insignificant amount of variation accounted for by linear model
+(*do not reject $H_0:\beta_{1.0} = 0$*) and insignificant amount due to lack
+of fit. Thus, the experimental data do not seem to suggest the need to 
+consider terms higher than the first order.
+
+## Hypothesis Testing on the Slope for Regressor Variable $x_2$
+
+The hypothesis that's being tested is the slope of the regression line
+$\hat{y} = \beta_0 + \beta_1x_2$, such that
+$$
+\begin{cases}
+H_0:\beta_{1.0} = 0 \\
+H_1:\beta_{1.1} \neq 0
+\end{cases}
+$$
+
+in order decide which hypothesis should be chosen, the 
+*one-way analysis of variances* is used.
+
+**Step 1.** Construct the linear model $\hat{y} = b_0 + b_1x_2$.
+```{r echo=FALSE}
+lmodels_X2
+```
+therefore, $$\hat{y} = 0.80328 + 0.08014x_2$$
+```{r echo=FALSE}
+plt_lm_x2 <- ggplot(dem_11_36, aes(Heigh_mm, Systolic_pressure_mmHg)) +
+    geom_point(aes(color = Systolic_pressure_mmHg)) +
+    geom_smooth(method = lm, formula = "y~x") +
+    ggtitle("Regression line y~x2")
+plt_lm_x2
+```
+
+**Step 2.** Compute the $\text{SSR}$ and $\text{SSE}$.
+
+**Step 3.** Compute the $f\text{-values}$.
+
+**Step 4.** Compute the $P\text{-values}$.
+
+**Step 5.** Summarize altogether computation as table of *One-way ANOVA*.
+```{r echo=FALSE}
+anova(lmodels_X2)
+```
+
+**Step 6 (Conclusion).** Let $\alpha = 0.05$, recal the critical value for
+$f_\alpha(1, n - 2)$ or $f_\alpha(1, 13)$. From the table of one-way ANOVA,
+$f\text{-values} > f_\alpha(1,13)$ is **false**. Therefore, there are
+insignificant amount of variation accounted for by linear model
+(*do not reject* $H_0 : \beta_{1.0} = 0$).
+
+## Determine Which Regressor Variable is the Better Predictor of $Y$
+
+Visualize altogether linear models
+
+```{r echo=FALSE}
+#' Visualize altogether linear models
+plt_lm_x1
+plt_lm_x2
+plt_lm_pressure
+```
+
+With regards to which regressor variable is better, from the computed
+$P\text{-values}$ after performed ANOVA for variable $x_1, x_2$ and $p$, for
+regressor variable $x$, $P\text{-values} \approx 0$, then $x$ is a better
+regressor variable for $Y$. Therefore, variable weight $(x_1)$ is better 
+regressor variable for predictor of the systolic blood pressure $(Y)$, with
+$P\text{-values} = 0.04829$.

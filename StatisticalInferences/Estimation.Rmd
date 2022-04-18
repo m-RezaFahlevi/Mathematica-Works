@@ -1,0 +1,79 @@
+---
+title: "R Notebook"
+output: html_notebook
+author: "Muhammad Reza Fahlevi"
+---
+
+# Estimator
+
+$\hat{\Theta}$ is the estimator of some parameter $\theta$ with point estimate $\hat{\theta}$.
+
+**Definition.** $\hat{\Theta}$ is an unbiased estimator of some parameter $\theta$ if
+and only if
+
+$$
+\mu_{\hat{\Theta}} = \mathbb{E}\left( \hat{\Theta} \right) = \theta
+$$
+
+# Confidence Interval
+
+**Confidence Interval of** $\mu$; $\sigma$ Known. Let $n$ be a sample size which has standard deviation $\sigma$, then $100(1 - \alpha)\%$ confidence interval of mean $\mu$ is
+
+$$
+\overline{x} - z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} < \mu < \overline{x} + z_{\alpha / 2} \frac{\sigma}{\sqrt{n}}
+$$
+
+where $z_{\alpha/2}$ is a $z-value$ which leaving an area $\alpha / 2$ to the right
+
+**Dem.**
+
+Recall central limit theorem, we have that statistic
+$$
+Z = \frac{\overline{X} - \mu}{\sigma / \sqrt{n}}
+$$
+Thus,
+$$
+\begin{align}
+\mathbb{P}\big\{ -z_{\alpha/2} < Z < z_{\alpha/2} \big\} &= 1 - \alpha \\
+\mathbb{P}\bigg\{ -z_{\alpha/2} < \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} < z_{\alpha/2} \bigg\} &= 1 - \alpha \\
+\mathbb{P}\bigg\{-\overline{X} -z_{\alpha/2} \sigma/\sqrt{n} < -\mu < -\overline{X} +z_{\alpha/2} \sigma/\sqrt{n} \bigg\} &= 1 - \alpha \\
+\mathbb{P}\bigg\{\overline{X} -z_{\alpha/2} \sigma/\sqrt{n} < \mu < \overline{X} +z_{\alpha/2} \sigma/\sqrt{n} \bigg\} &= 1 - \alpha \\
+\end{align}
+$$
+Therefore, $100(1-\alpha)\%$ confidence interval of $\mu$ is
+$$
+\overline{x} -z_{\alpha/2} \sigma/\sqrt{n} < \mu < \overline{x} +z_{\alpha/2} \sigma/\sqrt{n}
+$$
+
+$\mathscr{Eg}.$
+```{r}
+# Create artificial data
+population_size <- 132
+sample_size <- 52
+sample_ <- population_size %>%
+    runif(min = 1, max = 75) %>%
+    round() %>%
+    sample(size = sample_size)
+sample_
+```
+```{r}
+summary(sample_)
+paste("Standard deviation", var(sample_) %>% sqrt())
+```
+Suppose that
+```{r}
+assumed_sigma <- population_size %>%
+    runif(min = 1, max = 76) %>%
+    sample(size = sample_size) %>%
+    var() %>%
+    sqrt()
+assumed_sigma %>% paste("is assumed to be standard deviation of the population")
+```
+Then 
+```{r}
+assumed_sigma / (sample_size %>% sqrt())
+```
+Which yield an interval
+$$
+38.42 - z_{\alpha / 2}2.929101 < \mu < 38.42 + z_{\alpha / 2}2.929101
+$$

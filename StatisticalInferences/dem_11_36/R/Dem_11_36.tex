@@ -1,0 +1,611 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Dem 11.36}
+\author{Muhammad Reza Fahlevi}
+\date{}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Dem 11.36},
+  pdfauthor={Muhammad Reza Fahlevi},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{problems}{%
+\section{Problems}\label{problems}}
+
+The dataset consists of variable relating to blood pressure of 15
+Peruvians (\(n = 15\)) who have moved from rural, high- altitude areas
+to urban, lower altitude areas. The variables in this data sets are:
+Systolic blood pressure (\(Y\)), weight (\(X_1\)), height (\(X_2\)), and
+pulse.
+
+\begin{verbatim}
+##    Weight_kg Heigh_mm Pulse_per_minute Systolic_pressure_mmHg
+## 1       71.0     1629               88                    170
+## 2       56.5     1569               64                    120
+## 3       56.0     1561               68                    125
+## 4       61.0     1619               52                    148
+## 5       65.0     1566               72                    140
+## 6       62.0     1639               72                    106
+## 7       53.0     1494               64                    120
+## 8       53.0     1568               80                    108
+## 9       65.0     1540               76                    124
+## 10      57.0     1530               60                    134
+## 11      66.5     1622               68                    116
+## 12      59.1     1486               72                    114
+## 13      64.0     1578               88                    130
+## 14      69.5     1645               60                    118
+## 15      64.0     1648               60                    138
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi}.}
+\tightlist
+\item
+  Determine if weight and systolic blood pressure are in a linear
+  relationship, that is, test whether \(H_0 : \beta_{1.0} = 0\), where
+  \(\beta_1\) is the slope of the regressor variable.
+\item
+  Perform a lack-of-ﬁt test to determine if linear relationship between
+  weight and systolic blood pressure is adequate. Draw conclusions.
+\item
+  Determine if pulse rate inﬂuences systolic blood pressure in a linear
+  relationship. Which regressor variable is the better predictor of the
+  systolic blood pressure?
+\end{enumerate}
+
+\hypertarget{demonstrandum}{%
+\section{Demonstrandum}\label{demonstrandum}}
+
+Let
+
+\[
+x_1 &\stackrel{def} = \text{weight} \\
+x_2 &\stackrel{def} = \text{height} \\
+p &\stackrel{def} = \text{pulse}
+\] The simple linear regression for given data
+\(\{(x_i, y_i) : i = 1, 2, \ldots, n\}\) is defined as
+
+\[
+Y = \beta_0 + \beta_1x
+\] \(Y\) is estimated by \[
+\hat{y} = b_0 + b_1x
+\] where \(b_0\) and \(b_1\) are regression's coefficient estimator for
+\(\beta_0\) and \(\beta_1\), respectively. These estimator is computed
+as follows,
+
+\$\$
+
+\begin{aligned}
+b_0 = \frac{n\sum_{i = 1}^{n}x_iy_i - \sum_{i = 1}^{n}x_i\sum_{i = 1}^{n}y_i}
+{n\sum_{i = 1}^{n}x_i^2 - \left(\sum_{i = 1}^{n}x_i\right)^2}, && \text{and} \\
+
+b_1 = \frac{\sum_{i = 1}^{n}y_i - b_1\sum_{i = 1}^{n}x_i}{n}
+\end{aligned}
+
+\$\$
+
+\hypertarget{take-a-glimpse-to-the-data}{%
+\subsection{Take a Glimpse to the
+Data}\label{take-a-glimpse-to-the-data}}
+
+The following output is the summarize of the given data
+
+\begin{verbatim}
+##    Weight_kg        Heigh_mm    Pulse_per_minute Systolic_pressure_mmHg
+##  Min.   :53.00   Min.   :1486   Min.   :52.0     Min.   :106.0         
+##  1st Qu.:56.75   1st Qu.:1550   1st Qu.:62.0     1st Qu.:117.0         
+##  Median :62.00   Median :1569   Median :68.0     Median :124.0         
+##  Mean   :61.51   Mean   :1580   Mean   :69.6     Mean   :127.4         
+##  3rd Qu.:65.00   3rd Qu.:1626   3rd Qu.:74.0     3rd Qu.:136.0         
+##  Max.   :71.00   Max.   :1648   Max.   :88.0     Max.   :170.0
+\end{verbatim}
+
+\hypertarget{hypothesis-testing-on-the-slope-for-regressor-variable-x_1}{%
+\subsection{\texorpdfstring{Hypothesis Testing on the Slope for
+Regressor Variable
+\(x_1\)}{Hypothesis Testing on the Slope for Regressor Variable x\_1}}\label{hypothesis-testing-on-the-slope-for-regressor-variable-x_1}}
+
+The hypothesis that's being tested is the slope of the regression line
+\(\hat{y} = \beta_0 + \beta_1x\)
+
+\[
+\begin{cases}
+H_0:\beta_{1.0} = 0 \\
+H_1:\beta_{1.1} \neq 0 \\
+\end{cases}
+\]
+
+In order to make decision with regards to the hypothesis, the analysis
+of variances is performed.
+
+\textbf{Step 1.} Construct the linear model for \(X_1\),
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = "Systolic_pressure_mmHg~Weight_kg", data = dem_11_36)
+## 
+## Coefficients:
+## (Intercept)    Weight_kg  
+##      44.398        1.349
+\end{verbatim}
+
+then for \(\hat{y} = b_0 + b_1x_1\), \[
+\hat{y} = 44.398 + 1.349x_1
+\]
+
+\textbf{Step 2.} Compute the \emph{one-way ANOVA}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(lmodels\_X1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: Systolic_pressure_mmHg
+##           Df  Sum Sq Mean Sq F value Pr(>F)  
+## Weight_kg  1  805.86  805.86  3.3645 0.0896 .
+## Residuals 13 3113.74  239.52                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\textbf{Step 3.} Conclusion. Let \(\alpha = 0.05\), the critical value
+for \(f_\alpha(1, n-2)\)
+
+\begin{verbatim}
+## [1] 4.667193
+\end{verbatim}
+
+According to \emph{one-way ANOVA} tables, the computed f-values
+\(f_\text{reg} = 3.3645\). Hence, \(f_\text{reg} < f_{0.05}(1, 13)\).
+Therefore, the hypothesis testing lead to \emph{do not reject
+\(H_0 : \beta_{1.0} = 0\) at \(\alpha=0.05\) level of significance}.
+
+\hypertarget{anova-for-testing-linearity-of-regression-y-sim-x_1}{%
+\subsection{\texorpdfstring{ANOVA for Testing Linearity of Regression
+\(Y \sim x_1\)}{ANOVA for Testing Linearity of Regression Y \textbackslash sim x\_1}}\label{anova-for-testing-linearity-of-regression-y-sim-x_1}}
+
+In order to determine the linear relationship between weight (\(x_1\))
+and the systolic blood pressure (\(Y\)) is adequate or not, the
+\emph{ANOVA for testing linearity of regression} is performed.
+
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\textbf{Step 1.} Compute the sum of square
+\(\text{SSR, SSE, SSE(pure)}\) and lack-of-fit. The \(\text{SSR}\) is
+computed as follows, \[
+\begin{aligned}
+\text{SSR} &= \sum_{i = 1}^{n}(\hat{y_i} - \bar{y})^2 \\
+&= 805.86
+\end{aligned}
+\]
+
+on \(1\) degrees of freedom. The \(\text{SSE}\) is computed as follows,
+\[
+\begin{aligned}
+\text{SSE} &= \sum_{i = 1}^{n}(y_i - \hat{y_i})^2 \\
+&= 3113.74
+\end{aligned}
+\]
+
+on \(n-2=13\) degrees of freedom. For data which contain \(k\)-groups,
+the \(\text{SSE(pure)}\) is computed as follows, \[
+\begin{aligned}
+\text{pure error } &:= 
+\sum_{i = 1}^{k}\sum_{j = 1}^n (y^{(i)}_j - \bar{y}^{(i)})^2
+\end{aligned}
+\] where
+
+\[
+\bar{y}^{(i)} = \frac{1}{n_i}\sum_{j = 1}^{n_i}y^{(i)}_j
+\]
+
+for \(i = 1, 2, \ldots, k\) and \(j = 1, 2, \ldots, n_i\). In order to
+compute the pure error, the data must be group by the regressor variable
+\((x_1)\).
+
+\begin{verbatim}
+## # A tibble: 15 x 2
+## # Groups:   Weight_kg [12]
+##    Weight_kg Systolic_pressure_mmHg
+##        <dbl>                  <dbl>
+##  1      53                      120
+##  2      53                      108
+##  3      56                      125
+##  4      56.5                    120
+##  5      57                      134
+##  6      59.1                    114
+##  7      61                      148
+##  8      62                      106
+##  9      64                      130
+## 10      64                      138
+## 11      65                      140
+## 12      65                      124
+## 13      66.5                    116
+## 14      69.5                    118
+## 15      71                      170
+\end{verbatim}
+
+then
+
+\begin{verbatim}
+## # A tibble: 12 x 3
+##    Weight_kg mean_y_ith sum_sqr_y_ith
+##        <dbl>      <dbl>         <dbl>
+##  1      53          114            72
+##  2      56          125             0
+##  3      56.5        120             0
+##  4      57          134             0
+##  5      59.1        114             0
+##  6      61          148             0
+##  7      62          106             0
+##  8      64          134            32
+##  9      65          132           128
+## 10      66.5        116             0
+## 11      69.5        118             0
+## 12      71          170             0
+\end{verbatim}
+
+from the tables, \(k = 12\) groups, the second column is equals to
+\(\bar{y}^{(i)}\), the third column is the value of
+\[\sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})\] and the sum of third
+column is equals to the so called \(\text{pure error}\), thus, \[
+\text{pure error} := 232.00
+\] on \(n - k = 3\) degrees of freedom.
+
+The differences between \(\text{SSE}\) and \(\text{SSE(pure)}\) is
+equals to the so called \emph{lack-of-fit}, hence, \[
+\begin{aligned}
+\text{lack-of-fit} := \text{SSE} - \text{SSE(pure)} &=
+\sum_{i = 1}^{n}(y_i - \hat{y}_i)^2 -
+\sum_{i = 1}^k \sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})^2 \\
+&= 3113.74 - 232.00 \\
+&= 2881.74
+\end{aligned}
+\] on \(k - 2 = 10\) degrees of freedom.
+
+\textbf{Step 2.} Compute the mean square for
+\(\text{SSE}, \text{SSE(pure)}\) and \(\text{lack-of-fit}\). The mean
+square for \(\text{SSE}\), \[
+\begin{aligned}
+s^2 &= \frac{\text{SSE}}{n - 2} = 
+\sum_{i = 1}^{n} \frac{(y_i - \hat{y}_i)^2}{n - 2} =
+\frac{S_{yy} - b_1S_{xy}}{n - 2} \\
+&= \frac{3113.74}{15 - 2} = \frac{3113.74}{13} \\
+s^2 &= 239.52
+\end{aligned}
+\]
+
+The mean square for \emph{pure-error}, \[
+\begin{aligned}
+s^2_{\text{pure}} &= \frac{\text{pure error}}{n - k} =
+\sum_{i = 1}^{k}\sum_{j = 1}^{n_i} \frac{(y^{(i)}_j - 
+\bar{y}^{(i)})^2}{n - k} \\
+&= \frac{232.00}{15 - 12} \\ &= \frac{232.00}{3} \\
+s^2_{\text{pure}} &= 77.33
+\end{aligned}
+\]
+
+The mean square for \emph{lack-of-fit}, \[
+\begin{aligned}
+s^2_{\text{lack-of-fit}} &= \frac{\text{lack-of-fit}}{k - 2}
+= \frac{\text{SSE} - \text{SSE(pure)}}{k - 2} \\
+&= \frac{1}{k - 2} \left\{
+\sum_{i = 1}^{n}(y_i - \hat{y}_i)^2 -
+\sum_{i = 1}^{k} \sum_{j = 1}^{n_i}(y^{(i)}_j - \bar{y}^{(i)})^2
+\right\} \\
+&= \frac{3113.74 - 232.00}{12 - 2} \\
+&= \frac{2881.74}{10} \\
+s^2_{\text{lack-of-fit}} &= 288.17
+\end{aligned}
+\]
+
+\textbf{Step 3.} Compute the f-values. For \(f_\text{reg}\) \[
+\begin{aligned}
+f_\text{reg} &= \frac{\text{SSE}}{s^2_\text{pure}} \\
+&= \frac{3113.74}{77.33} \\
+f_\text{reg} &= 10.4206
+\end{aligned}
+\]
+
+on 1 and \(n - 2 = 13\) degrees of freedom, and for
+\(f_\text{lack-of-fit}\), \[
+\begin{aligned}
+f_\text{lack-of-fit} &= \frac{\text{lack-of-fit}}{s^2_\text{pure}(k - 2)} \\
+&= \frac{\text{SSE} - \text{SSE(pure)}}{s^2_\text{pure}(k - 2)} \\
+&= \frac{2881.74}{77.33 \times (12 - 2)} \\
+&= \frac{2881.74}{77.33 \times 10} \\
+&= \frac{2881.74}{773.3} \\
+f_\text{lack-of-fit} &= 3.7264
+\end{aligned}
+\] on \(k - 2 = 10\) and \(n - k = 3\) degrees of freedom.
+
+\textbf{Step 4.} Compute the P-values
+
+\begin{verbatim}
+## [1] "P-values for f_regression := 0.00660075471987764"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "P-values for f_lack-of-fit :=  0.153221390704174"
+\end{verbatim}
+
+\textbf{Step 5.} Summarize altogether computation as table of
+\emph{ANOVA for testing for linearity of regression.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{EnvStats}\SpecialCharTok{::}\FunctionTok{anovaPE}\NormalTok{(lmodels\_X1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                      Df  Sum Sq Mean Sq F value  Pr(>F)  
+## Weight_kg             1  805.86  805.86 10.4206 0.04829 *
+## Lack of Fit          10 2881.74  288.17  3.7264 0.15322  
+## Pure Error            3  232.00   77.33                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\textbf{Step 6 (Conclusion).} Let \(\alpha = 0.05\), then the critical
+value for \[f_\alpha(1, n-2) = f_\alpha(1, 13) = 4.667193\], and
+\[f_\alpha(k-2, n-k) = f_\alpha(10, 3) = 8.785525\] From the table of
+\emph{ANOVA for testing the linearity of regression},
+\(f_\text{reg} > f_\alpha(1,13)\) is \textbf{true}, and
+\(f_\text{lack-of-fit} > f_\alpha(10, 3)\) is \textbf{false}. Therefore,
+there are significant amount of variation accounted for by linear model
+(\emph{reject \(H_0 : \beta_{1.0} = 0\)}) and insignificant amount due
+to lack of fit. Thus, the experimental data do not seem to suggest the
+need to consider terms higher than ﬁrst order in the model, and the null
+hypothesis is not rejected.
+
+\hypertarget{anova-for-testing-linearity-of-regression-y-sim-p}{%
+\subsection{\texorpdfstring{ANOVA for Testing Linearity of Regression
+\(Y \sim p\)}{ANOVA for Testing Linearity of Regression Y \textbackslash sim p}}\label{anova-for-testing-linearity-of-regression-y-sim-p}}
+
+As usual, in order to determine the linear relationship between pulse
+rate (\(p\)) and the systolic blood pressure (\(Y\)) is adequate or not,
+the \emph{Analysis of Variances for testing linearity of regression} is
+performed.
+
+\textbf{Step 1.} Construct the linear model \(\hat{y} = b_0 + b_1p\)
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = "Systolic_pressure_mmHg~Pulse_per_minute", data = dem_11_36)
+## 
+## Coefficients:
+##      (Intercept)  Pulse_per_minute  
+##         117.0641            0.1485
+\end{verbatim}
+
+therefore, \[\hat{y} = 117.0641 + 0.1485p\]
+
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\textbf{Step 2.} Compute the \(\text{SSR}\), \(\text{SSE}\),
+\(\text{pure-error}\), and \(\text{lack-of-fit}\).
+
+\textbf{Step 3.} Compute the mean square error for \(\text{SSE}\),
+\(\text{pure-error}\), and \(\text{lack-of-fit}\).
+
+\textbf{Step 4.} Compute the \(f\)-value for regression and
+\(\text{lack-of-fit}\).
+
+\textbf{Step 5.} Compute the \(P\text{-values}\) for \(f_{\text{reg}}\)
+and \(f_{\text{lack-of-fit}}\)
+
+\textbf{Step 6.} Summarize altogether results into table of \emph{ANOVA
+for testing linearity of regression}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{EnvStats}\SpecialCharTok{::}\FunctionTok{anovaPE}\NormalTok{(lmodels\_pulse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                             Df  Sum Sq Mean Sq F value Pr(>F)
+## Pulse_per_minute             1   33.03   33.03  0.1363 0.7229
+## Lack of Fit                  6 2190.07  365.01  1.5061 0.3007
+## Pure Error                   7 1696.50  242.36
+\end{verbatim}
+
+\textbf{Step 7 (Conclusion).} Let \(\alpha = 0.05\), recall the critical
+value for \(f_\alpha(1, 13)\) and \(f_\alpha(10, 3)\). From the table of
+ANOVA for testing the linearity of regression,
+\(f_\text{reg} > f_\alpha(1, 13)\) is \textbf{false}, and
+\(f_{\text{lack-of-fit}} > f_\alpha(10, 3)\) is \textbf{false}.
+Therefore, there are insignificant amount of variation accounted for by
+linear model (\emph{do not reject \(H_0:\beta_{1.0} = 0\)}) and
+insignificant amount due to lack of fit. Thus, the experimental data do
+not seem to suggest the need to consider terms higher than the first
+order.
+
+\hypertarget{hypothesis-testing-on-the-slope-for-regressor-variable-x_2}{%
+\subsection{\texorpdfstring{Hypothesis Testing on the Slope for
+Regressor Variable
+\(x_2\)}{Hypothesis Testing on the Slope for Regressor Variable x\_2}}\label{hypothesis-testing-on-the-slope-for-regressor-variable-x_2}}
+
+The hypothesis that's being tested is the slope of the regression line
+\(\hat{y} = \beta_0 + \beta_1x_2\), such that \[
+\begin{cases}
+H_0:\beta_{1.0} = 0 \\
+H_1:\beta_{1.1} \neq 0
+\end{cases}
+\]
+
+in order decide which hypothesis should be chosen, the \emph{one-way
+analysis of variances} is used.
+
+\textbf{Step 1.} Construct the linear model \(\hat{y} = b_0 + b_1x_2\).
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = "Systolic_pressure_mmHg~Heigh_mm", data = dem_11_36)
+## 
+## Coefficients:
+## (Intercept)     Heigh_mm  
+##     0.80328      0.08014
+\end{verbatim}
+
+therefore, \[\hat{y} = 0.80328 + 0.08014x_2\]
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\textbf{Step 2.} Compute the \(\text{SSR}\) and \(\text{SSE}\).
+
+\textbf{Step 3.} Compute the \(f\text{-values}\).
+
+\textbf{Step 4.} Compute the \(P\text{-values}\).
+
+\textbf{Step 5.} Summarize altogether computation as table of
+\emph{One-way ANOVA}.
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: Systolic_pressure_mmHg
+##           Df Sum Sq Mean Sq F value Pr(>F)
+## Heigh_mm   1  251.6  251.61  0.8917 0.3622
+## Residuals 13 3668.0  282.15
+\end{verbatim}
+
+\textbf{Step 6 (Conclusion).} Let \(\alpha = 0.05\), recal the critical
+value for \(f_\alpha(1, n - 2)\) or \(f_\alpha(1, 13)\). From the table
+of one-way ANOVA, \(f\text{-values} > f_\alpha(1,13)\) is
+\textbf{false}. Therefore, there are insignificant amount of variation
+accounted for by linear model (\emph{do not reject}
+\(H_0 : \beta_{1.0} = 0\)).
+
+\hypertarget{determine-which-regressor-variable-is-the-better-predictor-of-y}{%
+\subsection{\texorpdfstring{Determine Which Regressor Variable is the
+Better Predictor of
+\(Y\)}{Determine Which Regressor Variable is the Better Predictor of Y}}\label{determine-which-regressor-variable-is-the-better-predictor-of-y}}
+
+Visualize altogether linear models
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-19-2.pdf}
+\includegraphics{Dem_11_36_files/figure-latex/unnamed-chunk-19-3.pdf}
+
+With regards to which regressor variable is better, from the computed
+\(P\text{-values}\) after performed ANOVA for variable \(x_1, x_2\) and
+\(p\), for regressor variable \(x\), \(P\text{-values} \approx 0\), then
+\(x\) is a better regressor variable for \(Y\). Therefore, variable
+weight \((x_1)\) is better regressor variable for predictor of the
+systolic blood pressure \((Y)\), with \(P\text{-values} = 0.04829\).
+
+\end{document}
