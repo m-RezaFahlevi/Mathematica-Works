@@ -1,6 +1,6 @@
 # eg 12.3
 
-library(ggplot2)
+library(plotly)
 
 temperature <- c(
     rep(c(75, 100, 125), 6)
@@ -32,4 +32,15 @@ eg_12_3_lm <- lm(
         SterilizingTime+I(Temperature^2)+
         I(SterilizingTime^2)+Temperature*SterilizingTime,
     data = eg_12_3
+)
+
+# visualize
+plot_ly(
+    data = eg_12_3,
+    x = eg_12_3$Temperature,
+    y = eg_12_3$SterilizingTime,
+    z = eg_12_3$PercentOfImpurities,
+    type = "scatter3d",
+    mode = "markers",
+    color = eg_12_3$Temperature
 )
