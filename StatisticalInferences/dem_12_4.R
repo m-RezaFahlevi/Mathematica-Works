@@ -20,3 +20,15 @@ dem_12_4 <- data.frame(
 )
 View(dem_12_4)
 write.csv(dem_12_4, file = "datasets/dem_12_4.csv")
+summary(dem_12_4)
+
+dem_12_4_lm <- lm(
+    formula = FinalWeight~InitialWeight+FeedWeight,
+    data = dem_12_4
+)
+
+# Prediction for the final weight of an animal that
+# has an intial weight of 35 kilograms and is
+# given 250 kilograms of feed
+(dem_12_4_lm %>% coefficients() %>%
+    as.vector() * c(1, 35, 250)) %>% sum()

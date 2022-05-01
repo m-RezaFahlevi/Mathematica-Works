@@ -32,4 +32,20 @@ dem_12_5 <- data.frame(
     "ProductProduced" = product_produced # x4
 )
 View(dem_12_5)
-write.csv(dem_12_5, file = "datasets/dem_12_5")
+write.csv(dem_12_5, file = "datasets/dem_12_5.csv")
+summary(dem_12_5)
+
+# Estimation for regression's coefficient for model
+# y = b0 + b1x1 + b2x2 + b3x3 + b4x4
+dem_12_5_lm <- lm(
+    formula = PowerConsumption~AmbientTemperature+
+        NumberOfDays+
+        ProductPurity+
+        ProductProduced,
+    data = dem_12_5
+)
+
+# Prediction for power consumption for a month in which
+# x1 = 75, x2 = 24, x3 = 90, x4 = 98
+(dem_12_5_lm %>% coefficients() %>%
+    as.vector() * c(1, 75, 24, 90, 98)) %>% sum()

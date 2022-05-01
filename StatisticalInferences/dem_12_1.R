@@ -20,3 +20,11 @@ dem_12_1 <- data.frame(
 )
 View(dem_12_1)
 write.csv(dem_12_1, file = "datasets/dem_12_1.csv")
+summary(dem_12_1)
+
+# Estimate the regression's coefficients for model
+# y = b0 + b1x1 + b2x2
+dem_12_1_lm <- lm(
+    formula = CookingTime~OvenWidth+FlueTemperature,
+    data = dem_12_1
+)

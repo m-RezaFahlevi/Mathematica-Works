@@ -1,4 +1,5 @@
 # dem 12.3
+library(magrittr)
 
 chemistry_grade <- c(
     85, 74, 76, 90,
@@ -23,3 +24,18 @@ dem_12_3 <- data.frame(
 )
 View(dem_12_3)
 write.csv(dem_12_3, file = "datasets/dem_12_3.csv")
+summary(dem_12_3)
+
+# Estimate the regression's coefficient for model
+# y = b0 + b1x1 + b2x2
+dem_12_3_lm <- lm(
+    formula = ChemistryGrade~TestScore+ClassMissed,
+    data = dem_12_3
+)
+
+# Estimate the chemistry_grade for student
+# which have test_score = 60 and class_missed = 4
+(dem_12_3_lm %>%
+    coefficients() %>%
+    as.vector() * c(1, 60, 4)) %>%
+    sum()
