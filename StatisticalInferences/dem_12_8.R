@@ -29,6 +29,33 @@ dem_12_8_lm <- lm(
         poly(Concentration, degree = 2, raw = TRUE),
     data = dem_12_8
 )
+# test lack of fit
+EnvStats::anovaPE(dem_12_8_slr)
+
+anova(dem_12_8_lm)
+
+# compute the variance-covariance matrix
+vcov(dem_12_8_lm) %>% as.numeric() %>% 
+    matrix(nrow = 3, ncol = 3, byrow = TRUE)
+
+rep(19.5, 3) %*%
+    ((vcov(dem_12_8_lm) %>% as.numeric() %>% 
+         matrix(nrow = 3, ncol = 3, byrow = TRUE))/2.0397) %*%
+    t(t(rep(19.5, 3)))
+
+# confidence interval for the mean response
+predict(
+    dem_12_8_lm,newdata = data.frame(
+        "Concentration" = c(19.5)
+    ), interval = "confidence", level = 0.90
+)
+
+# confidence interval for the single response
+predict(
+    dem_12_8_lm, newdata = data.frame(
+        "Concentration" = c(19.5)
+    ), interval = "prediction", level = 0.90
+)
 
 # simple linear regression
 dem_12_8_slr <- lm(
@@ -73,9 +100,6 @@ dem_12_8_wrangling <- dem_12_8 %>% tibble() %>%
 View(dem_12_8_wrangling)
 write.csv(dem_12_8_wrangling, file = "datasets/dem_12_8_wrangling.csv")
 summary(dem_12_8_wrangling)
-
-# test lack of fit
-EnvStats::anovaPE(dem_12_8_slr)
 
 # compute the pure error manually
 dem_12_8_wrangling %>% 

@@ -49,3 +49,28 @@ dem_12_5_lm <- lm(
 # x1 = 75, x2 = 24, x3 = 90, x4 = 98
 (dem_12_5_lm %>% coefficients() %>%
     as.vector() * c(1, 75, 24, 90, 98)) %>% sum()
+
+anova(dem_12_5_lm)
+vcov(dem_12_5_lm) # variance-covariance matrix
+predict(
+    dem_12_5_lm, newdata = data.frame(
+        "AmbientTemperature" = 75,
+        "NumberOfDays" = 24,
+        "ProductPurity" = 90,
+        "ProductProduced" = 98
+    ), interval = "prediction"
+)
+
+predict(
+    dem_12_5_lm, newdata = data.frame(
+        "AmbientTemperature" = 75,
+        "NumberOfDays" = 24,
+        "ProductPurity" = 90,
+        "ProductProduced" = 98
+    ), interval = "confidence"
+)
+
+# compute the t(x) inv(X'X) x
+t(c(1, 75, 24, 90, 98)) %*%
+    (vcov(dem_12_5_lm)/242.7) %*%
+    t(t(c(1, 75, 24, 90, 98)))

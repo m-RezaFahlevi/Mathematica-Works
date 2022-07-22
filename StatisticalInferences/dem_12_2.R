@@ -27,3 +27,22 @@ dem_12_2_lm <- lm(
     formula = OpticalDensity~BandFrequency+FilmThickness,
     data = dem_12_2
 )
+
+anova(dem_12_2_lm)
+vcov(dem_12_2_lm)
+predict(dem_12_2_lm)
+predict(
+    dem_12_2_lm, newdata = data.frame(
+        "BandFrequency" = 900,
+        "FilmThickness" = 1.00
+    ), interval = "confidence"
+)
+predict(
+    dem_12_2_lm, newdata = data.frame(
+        "BandFrequency" = 900,
+        "FilmThickness" = 1.00
+    ), interval = "prediction"
+)
+
+t(c(1.0, 900, 1.0)) %*% (vcov(dem_12_2_lm)/0.1561) %*%
+    t(t(c(1.0, 900, 1.0)))

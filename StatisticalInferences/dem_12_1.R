@@ -28,3 +28,6 @@ dem_12_1_lm <- lm(
     formula = CookingTime~OvenWidth+FlueTemperature,
     data = dem_12_1
 )
+
+anova(dem_12_1_lm)
+vcov(dem_12_1_lm)
