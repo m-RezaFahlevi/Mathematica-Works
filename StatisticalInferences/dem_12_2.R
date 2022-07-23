@@ -28,9 +28,9 @@ dem_12_2_lm <- lm(
     data = dem_12_2
 )
 
+summary(dem_12_2_lm)
 anova(dem_12_2_lm)
 vcov(dem_12_2_lm)
-predict(dem_12_2_lm)
 predict(
     dem_12_2_lm, newdata = data.frame(
         "BandFrequency" = 900,

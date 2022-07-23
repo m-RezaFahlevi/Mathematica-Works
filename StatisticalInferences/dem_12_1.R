@@ -29,5 +29,6 @@ dem_12_1_lm <- lm(
     data = dem_12_1
 )
 
+summary(dem_12_1_lm)
 anova(dem_12_1_lm)
 vcov(dem_12_1_lm)
