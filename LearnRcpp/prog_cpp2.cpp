@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// the purpose of this program is to recreate all function
+// that already written in R. For example, suppose that x
+// be a vector, all(x > 3) return TRUE if and only if for all
+// member of x is greater then 3, and all(x > 3) return FALSE if
+// there exist member of x is not greater then 3, i.e., there
+// exist member of x is less than or equals to 3.
+
+bool is_allgeth(vector<int> v_vect, int nahlen) {
+	int n = v_vect.size();
+	bool check_geq = true;
+
+	for (int curr_memb = 0; curr_memb < n; ++curr_memb) {
+		if (v_vect.at(curr_memb) <= nahlen) {
+			check_geq = false;
+			break;
+		}
+	}
+
+	return check_geq;
+}
+
+bool is_allleth(vector<int> v_vect, int nahlen) {
+	int n = v_vect.size();
+	bool check_leq = true;
+
+	for (int curr_memb: v_vect)
+		if (curr_memb >= nahlen) {
+			check_leq = false;
+			break;
+		}
+	
+	return check_leq;
+}
+
+bool is_all_eq(vector<int> v_vect, int nahlen) {
+	int n = v_vect.size();
+	bool check_eq = true;
+
+	for (int curr_memb: v_vect)
+		if (curr_memb != nahlen) {
+			check_eq = false;
+			break;
+		}
+	
+	return check_eq;
+}
+
+bool allOpCpp(vector<int> v_vect, char rel, int nahlen) {
+	bool all_check = true;
+
+	switch (rel) {
+		case '>':
+			all_check = is_allgeth(v_vect, nahlen);
+			break;
+		case '<':
+			all_check = is_allleth(v_vect, nahlen);
+			break;
+		case '=':
+			all_check = is_all_eq(v_vect, nahlen);
+			break;
+		default:
+			cout << "Unknown relation\n";
+			break;
+	}
+
+	return all_check;
+}
+
+int main(void) {
+	int inp_s = 1;
+	vector<int> created_vect = {3, 2, 5};
+
+	string geth_check = allOpCpp(created_vect, '>', inp_s) ? "TRUE" : "FALSE";
+	string leth_check = allOpCpp(created_vect, '<', inp_s) ? "TRUE" : "FALSE";
+	string eq_check = allOpCpp(created_vect, '=', inp_s) ? "TRUE" : "FALSE";
+
+	cout << geth_check << " " << leth_check << " " << eq_check << endl;
+}
