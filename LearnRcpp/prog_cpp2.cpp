@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <limits>
 using namespace std;
 
 // the purpose of this program is to recreate all function
@@ -83,6 +84,32 @@ int cumprodCpp(vector<int> v_vect) {
 	return prod;
 }
 
+vector<int> cummaxCpp(vector<int> v_vect) {
+	int curr_thresh = std::numeric_limits<int>::min(); // a.k.a., -infinity
+	int n = v_vect.size();
+	for (int curr_memb = 0; curr_memb < n; curr_memb++) {
+		int current_state = v_vect.at(curr_memb);
+		if (current_state > curr_thresh)
+			curr_thresh = current_state;
+		else
+			v_vect.at(curr_memb) = curr_thresh;
+	}
+	return v_vect;
+}
+
+vector<int> cumminCpp(vector<int> v_vect) {
+	int curr_thresh = std::numeric_limits<int>::max(); // a.k.a., infinity
+	int n = v_vect.size();
+	for (int curr_memb = 0; curr_memb < n; curr_memb++) {
+		int current_state = v_vect.at(curr_memb);
+		if (current_state < curr_thresh)
+			curr_thresh = current_state;
+		else
+			v_vect.at(curr_memb) = curr_thresh;
+	}
+	return v_vect;
+}
+
 int main(void) {
 	int inp_s = 1;
 	vector<int> created_vect = {3, 2, 5};
@@ -96,4 +123,13 @@ int main(void) {
 	// cumsum and cumprod
 	cout << "The cumulative sum of created vector is : " << cumsumCpp(created_vect) << endl;
 	cout << "The cumulative product of created vector is : " << cumprodCpp(created_vect) << endl;
+
+	// cummax and cummin
+	cout << "Function cummax in cpp : ";
+	for (int curr_memb: cummaxCpp(created_vect))
+		cout << curr_memb << " ";
+	cout << "\nFunction cummin in cpp : ";
+	for (int curr_memb: cumminCpp(created_vect))
+		cout << curr_memb << " ";
+	cout << endl;
 }
