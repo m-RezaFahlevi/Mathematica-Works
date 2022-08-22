@@ -90,6 +90,34 @@ int cumprodCpp(NumericVector v_vect) {
     return prod;
 }
 
+// [[Rcpp::export]]
+NumericVector cummaxCpp(NumericVector v_vect) {
+    int curr_thresh = std::numeric_limits<int>::min(); // a.k.a., -infinity
+    int n = v_vect.size();
+    for (int curr_memb = 0; curr_memb < n; curr_memb++) {
+        int current_state = v_vect.at(curr_memb);
+        if (current_state > curr_thresh)
+            curr_thresh = current_state;
+        else
+            v_vect.at(curr_memb) = curr_thresh;
+    }
+    return v_vect;
+}
+
+// [[Rcpp::export]]
+NumericVector cumminCpp(NumericVector v_vect) {
+    int curr_thresh = std::numeric_limits<int>::max(); // a.k.a., infinity
+    int n = v_vect.size();
+    for (int curr_memb = 0; curr_memb < n; curr_memb++) {
+        int current_state = v_vect.at(curr_memb);
+        if (current_state < curr_thresh)
+            curr_thresh = current_state;
+        else
+            v_vect.at(curr_memb) = curr_thresh;
+    }
+    return v_vect;
+}
+
 // You can include R code blocks in C++ files processed with sourceCpp
 // (useful for testing and development). The R code will be automatically 
 // run after the compilation.
