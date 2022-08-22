@@ -69,6 +69,20 @@ bool allOpCpp(vector<int> v_vect, char rel, int nahlen) {
 	return all_check;
 }
 
+int cumsumCpp(vector<int> v_vect) {
+	int total = 0;
+	for (int curr_memb: v_vect)
+		total += curr_memb;
+	return total;
+}
+
+int cumprodCpp(vector<int> v_vect) {
+	int prod = 1;
+	for (int curr_memb: v_vect)
+		prod *= curr_memb;
+	return prod;
+}
+
 int main(void) {
 	int inp_s = 1;
 	vector<int> created_vect = {3, 2, 5};
@@ -78,4 +92,8 @@ int main(void) {
 	string eq_check = allOpCpp(created_vect, '=', inp_s) ? "TRUE" : "FALSE";
 
 	cout << geth_check << " " << leth_check << " " << eq_check << endl;
+
+	// cumsum and cumprod
+	cout << "The cumulative sum of created vector is : " << cumsumCpp(created_vect) << endl;
+	cout << "The cumulative product of created vector is : " << cumprodCpp(created_vect) << endl;
 }

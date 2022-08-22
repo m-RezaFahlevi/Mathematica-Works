@@ -74,6 +74,21 @@ bool allOpCpp(NumericVector v_vect, char rel, int nahlen) {
     return all_check;
 }
 
+// [[Rcpp::export]]
+int cumsumCpp(NumericVector v_vect) {
+    int total = 0;
+    for (int curr_memb: v_vect)
+        total += curr_memb;
+    return total;
+}
+
+// [[Rcpp::export]]
+int cumprodCpp(NumericVector v_vect) {
+    int prod = 1;
+    for (int curr_memb: v_vect)
+        prod *= curr_memb;
+    return prod;
+}
 
 // You can include R code blocks in C++ files processed with sourceCpp
 // (useful for testing and development). The R code will be automatically 
