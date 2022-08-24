@@ -118,6 +118,53 @@ NumericVector cumminCpp(NumericVector v_vect) {
     return v_vect;
 }
 
+// [[Rcpp::export]]
+NumericVector rangeCpp(NumericVector v_vect) {
+    double min_thresh = std::numeric_limits<double>::min(); // a.k.a., -infinity
+    double max_thresh = std::numeric_limits<double>::max(); // a.k.a., +infinity
+    double *ptr = &min_thresh;
+    
+    // linear (sequential) search is used
+    // to finding the maximum or the minimum
+    // members of v_vect
+    for (double nahlen: v_vect)
+        if (nahlen > *ptr)
+            *ptr = nahlen; // finding the max(v_vect)
+    ptr = &max_thresh;
+    for (double nahlen: v_vect)
+        if (nahlen < *ptr)
+            *ptr = nahlen; // finding the min(v_vect)
+            
+    // max_thresh become the minimum value of v_vect,
+    // and min_thresh become the maximum value of v_vect
+    NumericVector arrlocal = {max_thresh, min_thresh};
+    return arrlocal;
+}
+
+// [[Rcpp::export]]
+float meanCpp(NumericVector v_vect) {
+    int n = v_vect.size();
+    double total = 0.0;
+    for (int nahlen: v_vect)
+        total += nahlen;
+    float measured = total / n;
+    return measured;
+}
+
+// [[Rcpp::export]]
+double varianceCpp(NumericVector v_vect) {
+    int n = v_vect.size();
+    NumericVector vsq_vect;
+    for (int i = 0; i < n; ++i) {
+        int vsq_memb = pow(v_vect.at(i), 2);
+        vsq_vect.push_back(vsq_memb);
+    }
+    int curr_term = (n * cumsumCpp(vsq_vect)) - pow(cumsumCpp(v_vect), 2);
+    double var_measured = (1.0 / (n * (n - 1))) * curr_term;
+    return var_measured;
+}
+
+
 // You can include R code blocks in C++ files processed with sourceCpp
 // (useful for testing and development). The R code will be automatically 
 // run after the compilation.

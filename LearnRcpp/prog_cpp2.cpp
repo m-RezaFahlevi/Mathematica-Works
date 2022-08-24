@@ -154,7 +154,9 @@ float meanCpp(vector<int> v_vect) {
 	return measured;
 }
 
-// variances could be defined as var(x) = mean(x^2) - mean^2(x)
+// variances could be defined as follows, 
+// if v is a data point, then
+// var(v) = (1/ (n * (n - 1))) * (n * sum(v^2) - (sum(v)^2)
 double varianceCpp(vector<int> v_vect) {
 	int n = v_vect.size();
 	vector<int> vsq_vect;
@@ -162,7 +164,8 @@ double varianceCpp(vector<int> v_vect) {
 		int vsq_memb = pow(v_vect.at(i), 2);
 		vsq_vect.push_back(vsq_memb);
 	}
-	double var_measured = meanCpp(vsq_vect) - pow(meanCpp(v_vect), 2);
+	int curr_term = (n * cumsumCpp(vsq_vect)) - pow(cumsumCpp(v_vect), 2);
+	double var_measured = (1.0 / (n * (n - 1))) * curr_term;
 	return var_measured;
 }
 
