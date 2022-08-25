@@ -164,6 +164,91 @@ double varianceCpp(NumericVector v_vect) {
     return var_measured;
 }
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+NumericVector attribs() {
+    NumericVector out = NumericVector::create(1, 2, 3);
+    
+    out.names() = CharacterVector::create("a", "b", "c");
+    out.attr("my-attr") = "my-value";
+    out.attr("class") = "my-class";
+    
+    return out;
+}
+
+// [[Rcpp::export]]
+double mpe(List mod) {
+    if (!mod.inherits("lm")) stop("Input must be a linear model");
+    
+    NumericVector resid = as<NumericVector>(mod["residuals"]);
+    NumericVector fitted = as<NumericVector>(mod["fitted.values"]);
+    
+    int n = resid.size();
+    double err = 0;
+    for(int i = 0; i < n; ++i) {
+        err += resid[i] / (fitted[i] + resid[i]);
+    }
+    return err / n;
+}
+
+// [[Rcpp::export]]
+RObject callWithOne(Function f) {
+    return f(1);
+}
+
+// [[Rcpp::export]]
+List lapply1(List input, Function f) {
+    int n = input.size();
+    List out(n);
+    
+    for(int i = 0; i < n; i++) {
+        out[i] = f(input[i]);
+    }
+    
+    return out;
+}
+
+// [[Rcpp::export]]
+List scalar_missings() {
+    int int_s = NA_INTEGER;
+    String chr_s = NA_STRING;
+    bool lgl_s = NA_LOGICAL;
+    double num_s = NA_REAL;
+    
+    return List::create(int_s, chr_s, lgl_s, num_s);
+}
+
+// [[Rcpp::export]]
+List rleC(NumericVector x) {
+    std::vector<int> lengths;
+    std::vector<double> values;
+    
+    // Initialise first value
+    int i = 0;
+    double prev = x[0];
+    values.push_back(prev);
+    lengths.push_back(1);
+    
+    NumericVector::iterator it;
+    for(it = x.begin() + 1; it != x.end(); ++it) {
+        if (prev == *it) {
+            lengths[i]++;
+        } else {
+            values.push_back(*it);
+            lengths.push_back(1);
+            
+            i++;
+            prev = *it;
+        }
+    }
+    
+    return List::create(
+        _["lengths"] = lengths, 
+        _["values"] = values
+    );
+}
 
 // You can include R code blocks in C++ files processed with sourceCpp
 // (useful for testing and development). The R code will be automatically 
@@ -174,4 +259,10 @@ double varianceCpp(NumericVector v_vect) {
 allOpCpp(c(3, 2, 5), '>', 1)
 allOpCpp(c(3, 2, 5), '<', 1)
 allOpCpp(c(3, 2, 5), '=', 1)
+
+mod <- lm(mpg ~ wt, data = mtcars)
+mpe(mod)
+
+callWithOne(function(x) x + 1)
+callWithOne(paste)
 */
