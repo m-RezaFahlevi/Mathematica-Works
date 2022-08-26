@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <limits>
+#include <list>
 using namespace std;
 
 // the purpose of this program is to recreate all function
@@ -77,6 +78,16 @@ int cumsumCpp(vector<int> v_vect) {
 	return total;
 }
 
+int cumsumCppPtr(vector<int> v_vect) {
+	int total = 0;
+	vector<int>::iterator ptrloc = v_vect.begin();
+	for (; ptrloc != v_vect.end(); ++ptrloc)
+		total += *ptrloc;
+	return total;
+}
+
+
+
 int cumprodCpp(vector<int> v_vect) {
 	int prod = 1;
 	for (int curr_memb: v_vect)
@@ -121,6 +132,13 @@ int *fooptr(vector<int> v_vect) {
 	arrlocal[0] = v_vect.at(0);
 	arrlocal[1] = v_vect.at(1);
 	return arrlocal;
+}
+
+list<vector<int>> foolist() {
+	vector<int> v1_vect = {1, 2, 3};
+	vector<int> v2_vect = {3, 2, 5};
+	list<vector<int>> v_list = {v1_vect, v2_vect};
+	return v_list;
 }
 
 int *rangeCpp(vector<int> v_vect) {
@@ -204,4 +222,13 @@ int main(void) {
 	// var function
 	cout << "The variance of created vector is : ";
 	cout << varianceCpp(created_vect) << endl;
+
+	// cumsum using ptr
+	cout << "Cumulative sum : " << cumsumCppPtr(created_vect) << endl;
+
+	// foolist function
+	vector<int> st_list_memb = foolist().back();
+	for (vector<int>::iterator ptrloc = st_list_memb.begin(); ptrloc != st_list_memb.end(); ++ptrloc)
+		cout << *ptrloc << " ";
+	cout << endl;
 }
