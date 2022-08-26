@@ -141,6 +141,29 @@ list<vector<int>> foolist() {
 	return v_list;
 }
 
+list<vector<int>> rleCpp(vector<int> v_vect) {
+	vector<int> v_value, v_length;
+	int curr_length = 0;
+
+	// init first value
+	int prev_val = v_vect.at(0);
+	v_value.push_back(prev_val);
+	v_length.push_back(1);
+
+	vector<int>::iterator ptrloc;
+	for (ptrloc = v_vect.begin() + 1; ptrloc != v_vect.end(); ++ptrloc) {
+		if (*ptrloc == prev_val) {
+			++*v_length.rbegin();
+		} else {
+			v_value.push_back(*ptrloc);
+			v_length.push_back(1);
+			prev_val = *ptrloc;
+		}
+	}
+	list<vector<int>> rtr_rle = {v_length, v_value};
+	return rtr_rle;
+}
+
 int *rangeCpp(vector<int> v_vect) {
 	int min_thresh = std::numeric_limits<int>::min(); // a.k.a., -infinity
 	int max_thresh = std::numeric_limits<int>::max(); // a.k.a., +infinity
@@ -189,7 +212,7 @@ double varianceCpp(vector<int> v_vect) {
 
 int main(void) {
 	int inp_s = 1;
-	vector<int> created_vect = {3, 2, 5};
+	vector<int> created_vect = {3, 2, 2, 2, 5, 5};
 
 	string geth_check = allOpCpp(created_vect, '>', inp_s) ? "TRUE" : "FALSE";
 	string leth_check = allOpCpp(created_vect, '<', inp_s) ? "TRUE" : "FALSE";
@@ -231,4 +254,15 @@ int main(void) {
 	for (vector<int>::iterator ptrloc = st_list_memb.begin(); ptrloc != st_list_memb.end(); ++ptrloc)
 		cout << *ptrloc << " ";
 	cout << endl;
+
+	// rle function
+	cout << "The rle function\n";
+	vector<int> rlelength = rleCpp(created_vect).front();
+	vector<int> rleval = rleCpp(created_vect).back();
+	for (vector<int>::iterator ptrloc = rlelength.begin(); ptrloc != rlelength.end(); ++ptrloc)
+		cout << *ptrloc << " ";
+	cout << endl;
+	for (vector<int>::iterator ptrloc = rleval.begin(); ptrloc != rleval.end(); ++ptrloc)
+		cout << *ptrloc << " ";
+
 }
