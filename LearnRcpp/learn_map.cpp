@@ -31,4 +31,8 @@ int main(void) {
 	ret = nats.insert(pair<char, int> ('3', 12));
 	cout << ret.first->second << endl;
 	cout << ret.second << endl; // it's false
+	
+	ret = nats.insert(pair<char, int> ('8', 19));
+	cout << endl << "f(" << ret.first->first << ") = " << ret.first->second << endl;
+	cout << ret.second << endl;
 }
