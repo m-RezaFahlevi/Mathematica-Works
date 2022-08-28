@@ -7,4 +7,14 @@ int main(void) {
 	unordered_set<int>::iterator ptrmain = v_vect.begin();
 	for (; ptrmain != v_vect.end(); ++ptrmain)
 		cout << *ptrmain << " ";
+	cout << endl;
+	
+	// choose member of v_vect
+	cout << *v_vect.find(2) << endl;
+
+	// checking
+	cout << "checking whether a new element already inserted or not\n";
+	pair<unordered_set<int>::iterator, bool> ret = v_vect.insert(11);
+	cout << *ret.first << endl;
+	cout << ret.second << endl;
 }
