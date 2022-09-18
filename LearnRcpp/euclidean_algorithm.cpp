@@ -33,7 +33,7 @@ vector<pair<int, int>> generate_intpairs(int given_range) {
 }
 
 int main(void) {
-	int created_range = 21; // pair numbers (a, b) such that 0 <= a,b <= created_range
+	int created_range = 50; // pair numbers (a, b) such that 0 <= a,b <= created_range
 	vector<pair<int, int>> integer_pairs = generate_intpairs(created_range);
 	map<int, pair<int, int>> nmod;
 
@@ -64,8 +64,8 @@ int main(void) {
 		cout << "with " <<  calcgcd.at(1) << " times modulo operate\n";
 	}
 
-	// print the smallest input pair that requires n
-	// modulus operations in the Euclidean algorithm
+	// print the smallest input pair a, b, a > b, that requires 
+	// n modulus operations in the Euclidean algorithm
 	//
 	// insert to nmod map
 	for (ptr_intpairs = integer_pairs.begin(); ptr_intpairs != integer_pairs.end(); ++ptr_intpairs) {
