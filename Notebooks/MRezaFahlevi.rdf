@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:mrezafahlevi="http://github.com/m-RezaFahlevi#"
+>
+	<foaf:Person rdf:about="http://github.com/m-RezaFahlevi#">
+		<!--Standard Information-->
+		<foaf:name>Muhammad Reza Fahlevi</foaf:name>
+		<foaf:phone rdf:resource="tel:812.7548.0237"/>
+		<foaf:homepage rdf:resource="https://github.com/m-RezaFahlevi/"/>
+		<foaf:gender>Male</foaf:gender>
+		<foaf:surname>Reza</foaf:surname>
+		<foaf:surname>Fahlevi</foaf:surname>
+		<foaf:firstName>Muhammad</foaf:firstName>
+		<foaf:lastName>Reza Fahlevi</foaf:lastName>
+		<foaf:schoolHomepage rdf:resource="https://fasilkom-ti.usu.ac.id/en/"/>
+		<foaf:interest>Computer Science</foaf:interest>
+		<foaf:img rdf:resource="https://avatars.githubusercontent.com/u/57177960?v=4"/>
+		<foaf:publications>
+			<rdf:Description rdf:about="https://doi.org/10.32734/jocai.v5.i1-5556">
+				<dc:title>Computing the Value of Pi in the Manner of Lambda Function with R Statistical Programming Language</dc:title>
+			</rdf:Description>
+		</foaf:publications>
+		<foaf:title>Mr.</foaf:title>
+		<foaf:title>Computer Science Degree</foaf:title>
+
+		<!--Online Account-->
+		<foaf:account>
+			<foaf:onlineAccount>
+				<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/OnlineChatAccount"/>
+				<foaf:accountServiceHomepage rdf:resource="http://www.instagram.com/"/>
+				<foaf:accountName rdf:resource="https://www.instagram.com/muhammmadrezafahlevi666"/>
+			</foaf:onlineAccount>
+		</foaf:account>
+		<foaf:account>
+			<foaf:onlineAccount>
+				<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/OnlineChatAccount"/>
+				<foaf:accountServiceHomepage rdf:resource="http://www.facebook.com/"/>
+				<foaf:accountName>idk</foaf:accountName>
+			</foaf:onlineAccount>
+		</foaf:account>
+	
+		<!--My Research/Study Interest-->
+		<foaf:interest>
+			<rdf:Description rdf:about="http://dbpedia.org/resource/Linked_Data" dc:title="Linked Data"/>
+		</foaf:interest>
+		<foaf:interest>
+			<rdf:Description rdf:about="http://dbpedia.org/Resource_Description_Framework" dc:title="Resource Description Framework (RDF)"/>
+		</foaf:interest>
+		<foaf:interest>
+			<rdf:Description rdf:about="http://dbpedia.org/resource/Semantic_Web" dc:title="Semantic Web"/>
+		</foaf:interest>
+		<foaf:interest>
+			<rdf:Description rdf:about="http://dbpedia.org/resource/Computer_Science" dc:title="Computer Science"/>
+		</foaf:interest>
+		<foaf:interest>
+			<rdf:Description rdf:about="http://dbpedia.org/resource/Mathematics" dc:title="Mathematics"/>
+		</foaf:interest>
+	</foaf:Person>
+</rdf:RDF>
