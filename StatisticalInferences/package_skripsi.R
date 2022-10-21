@@ -118,17 +118,20 @@ ggplot(part_qq, aes(stdnq, num_iter_f)) +
         subtitle = "Diagnose is the data came from a N(0,1)"
     )
 
-gft_z <- obt_df %>% 
-    select(num_iter_z) %>%
-    mutate(num_iter_z = sort(num_iter_z)) %>%
-    group_by(num_iter_z) %>%
-    mutate(observed = n()) %>%
-    distinct(num_iter_z, observed)
 
-gft_z <- gft_z %>%
-    mutate(ismerge = observed <= 5)
+# construct the frequency distribution with classes
+# Let the number of class is 10
+# step 1: find the class width
+(max(num_iter_z) - min(num_iter_z))/10
 
-bool_vect <- gft_z[,3] %>% as.data.frame()
-bool_vect <- bool_vect[1:22,1]
-its_val <- gft_z[,2] %>% as.data.frame()
-its_val <- its_val[1:22,1]
+# step 2:
+seq(min(num_iter_z), max(num_iter_z), 2.6) 
+
+# plot using ggplo2 library
+pltz_ggplot <- ggplot(obt_df, aes(num_iter_z)) +
+    geom_histogram(aes(y = ..density..), bins = 10, color = "darkblue", fill = "skyblue") +
+    geom_density(alpha = .2, color = "darkblue", fill = "#0000FF") +
+    geom_vline(aes(xintercept = mean(num_iter_z)),
+               color = "blue", linetype = "dashed", size = 1) +
+    xlab("iteration") +
+    ggtitle("Histogram with density plot", subtitle = "Number iteration required to finding z-value")
