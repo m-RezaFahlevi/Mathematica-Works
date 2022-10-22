@@ -7,7 +7,7 @@ tol_quantity <- 1e-3
 max_iter <- 50
 degf1 <- 32
 degf2 <- 35
-n_expr <- 125
+n_expr <- 36
 
 # data gathering
 num_iter_z <- c()
@@ -29,7 +29,7 @@ for (iteration in 1:n_expr) {
                                         tol_quantity, max_iter, is_echo = TRUE))[1])
 }
 
-# create a data.frame
+# create a data.frame to approximate the standard deviation
 obt_df <- data.frame(
     "num_iter_z" = num_iter_z,
     "num_iter_t" = num_iter_t,
@@ -41,6 +41,7 @@ write.csv(obt_df, file = "datasets/skripsi.csv")
 View(obt_df)
 summary(obt_df)
 
+var(obt_df) %>% diag() %>% sqrt()
 t.test(num_iter_z)
 t.test(num_iter_t)
 t.test(num_iter_chisq)
@@ -127,7 +128,7 @@ ggplot(part_qq, aes(stdnq, num_iter_f)) +
 # step 2:
 seq(min(num_iter_z), max(num_iter_z), 2.6) 
 
-# plot using ggplo2 library
+# plot using ggplot2 library
 pltz_ggplot <- ggplot(obt_df, aes(num_iter_z)) +
     geom_histogram(aes(y = ..density..), bins = 10, color = "darkblue", fill = "skyblue") +
     geom_density(alpha = .2, color = "darkblue", fill = "#0000FF") +
@@ -135,3 +136,71 @@ pltz_ggplot <- ggplot(obt_df, aes(num_iter_z)) +
                color = "blue", linetype = "dashed", size = 1) +
     xlab("iteration") +
     ggtitle("Histogram with density plot", subtitle = "Number iteration required to finding z-value")
+
+# Create data frame for to estimate the mean and variance,
+# and to check its distributions.
+# Let significant value alpha = 0.05, then we need a sample
+# of size n, where n = (t_{\alpha/2}s/e)^2
+
+z_val <- skripsi::z_local_search(
+    level_of_significance = lvl_of_significance,
+    tol = 1e-3, max_iteration = 50
+) %>% round(digits = 3)
+
+t_val <- skripsi::t_local_search(
+    level_of_significance = lvl_of_significance,
+    dfreedom = n_expr - 1, tol = 1e-3, max_iteration = 50
+) %>% round(digits = 3)
+
+n_sizez <- ((t_val * sqrt(var(num_iter_z))/0.05) ** 2) %>% ceiling()
+n_sizet <- ((t_val * sqrt(var(num_iter_t))/0.05) ** 2) %>% ceiling()
+n_sizechisq <- ((t_val * sqrt(var(num_iter_chisq))/0.05) ** 2) %>% ceiling()
+n_sizef <- ((t_val * sqrt(var(num_iter_f))/0.05) ** 2) %>% ceiling()
+
+# Create dataset required to estimate the mu and sigma
+
+# data gathering
+req_iter_z <- c()
+req_iter_t <- c()
+req_iter_chisq <-c()
+req_iter_f <- c()
+
+curr_iter <- NULL
+for (curr_iter in 1:n_sizet) {
+    req_iter_z <- req_iter_z %>%
+        append(dim(skripsi::z_local_search(lvl_of_significance, tol_quantity, 
+                                           max_iter, is_echo = TRUE))[1])
+}
+
+curr_iter <- NULL
+for (curr_iter in 1:n_sizet) {
+    req_iter_t <- req_iter_t %>%
+        append(dim(skripsi::t_local_search(lvl_of_significance, degf1, 
+                                           tol_quantity, max_iter, is_echo = TRUE))[1])
+}
+
+curr_iter <- NULL
+for (curr_iter in 1:n_sizet) {
+    req_iter_chisq <- req_iter_chisq %>%
+        append(dim(skripsi::chisq_local_search(lvl_of_significance, degf1,
+                                               tol_quantity, max_iter, is_echo = TRUE))[1])
+}
+
+curr_iter <- NULL
+for (curr_iter in 1:n_sizet) {
+    req_iter_f <- req_iter_f %>%
+        append(dim(skripsi::f_local_search(lvl_of_significance, degf1, degf2, 
+                                           tol_quantity, max_iter, is_echo = TRUE))[1])
+}
+remove("curr_iter")
+
+# create a data.frame to approximate the standard deviation
+req_df <- data.frame(
+    "niter_z" = req_iter_z,
+    "niter_t" = req_iter_t,
+    "niter_chisq" = req_iter_chisq,
+    "niter_f" = req_iter_f
+)
+write.csv(req_df, file = "datasets/req_df.csv")
+View(req_df)
+summary(req_df)
