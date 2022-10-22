@@ -170,28 +170,17 @@ for (curr_iter in 1:n_sizet) {
     req_iter_z <- req_iter_z %>%
         append(dim(skripsi::z_local_search(lvl_of_significance, tol_quantity, 
                                            max_iter, is_echo = TRUE))[1])
-}
-
-curr_iter <- NULL
-for (curr_iter in 1:n_sizet) {
     req_iter_t <- req_iter_t %>%
         append(dim(skripsi::t_local_search(lvl_of_significance, degf1, 
                                            tol_quantity, max_iter, is_echo = TRUE))[1])
-}
-
-curr_iter <- NULL
-for (curr_iter in 1:n_sizet) {
     req_iter_chisq <- req_iter_chisq %>%
         append(dim(skripsi::chisq_local_search(lvl_of_significance, degf1,
                                                tol_quantity, max_iter, is_echo = TRUE))[1])
-}
-
-curr_iter <- NULL
-for (curr_iter in 1:n_sizet) {
     req_iter_f <- req_iter_f %>%
         append(dim(skripsi::f_local_search(lvl_of_significance, degf1, degf2, 
                                            tol_quantity, max_iter, is_echo = TRUE))[1])
 }
+
 remove("curr_iter")
 
 # create a data.frame to approximate the standard deviation
